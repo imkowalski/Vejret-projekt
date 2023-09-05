@@ -1,0 +1,19 @@
+
+<h1>site</h1>
+<button id="btn" onclick="req()">click</button>
+<button onclick="req2()">click 2</button>
+<script>
+    let url;
+    req = async () => {
+        
+        navigator.geolocation.getCurrentPosition((position)=>{
+            url =`http://127.0.0.1:5000/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+            
+        })
+    }
+    req2 = async () => {
+        fetch(url)
+        .then((res)=>res.json())
+        .then((data)=>console.log(data))
+    }
+</script>
