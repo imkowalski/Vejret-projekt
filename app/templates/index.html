@@ -1,0 +1,27 @@
+
+<h1>SAD weather site</h1>
+
+<button id="btn" onclick="req()">Get URL</button>
+<button onclick="req2()">Get Forcast</button>
+<button onclick="req3()">Get Weather</button>
+<script>
+    let url_forcast;
+    let url_weather;
+    req = async () => {
+        
+        navigator.geolocation.getCurrentPosition((position)=>{
+            url_forcast = `/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+            url_weather = `/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+        })
+    }
+    req2 = async () => {
+        fetch(url_forcast)
+        .then((res)=>res.json())
+        .then((data)=>console.log(data))
+    }
+    req3 = async () => {
+        fetch(url_weather)
+        .then((res)=>res.json())
+        .then((data)=>console.log(data))
+    }
+</script>
