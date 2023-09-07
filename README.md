@@ -1,1 +1,1 @@
-# Vejret-projekt
+# Appens navn er AVAMD
