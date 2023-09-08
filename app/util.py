@@ -25,12 +25,11 @@ cloud avg:  0
 isRaining:  False
 '''
 
-energetic = lambda x, y, z, w: (pow(x-a,2)+pow(y-b,2)+pow(z-c,2)+pow(w-d,2))
-calm = lambda x, y, z, w: (pow(x-a,2)+pow(y-b,2)+pow(z-c,2)+pow(w-d,2))
-sad = lambda x, y, z, w: (pow(x-a,2)+pow(y-b,2)+pow(z-c,2)+pow(w-d,2))
-happy = lambda x, y, z, w: (pow(x-a,2)+pow(y-b,2)+pow(z-c,2)+pow(w-d,2))
-
-
+energetic = (20,10,15,False)
+calm = (10,5,50,True)
+sad = (10,15,80,True)
+happy = (30,5,0,False)
+moods = [energetic,calm,sad,happy]
 
 def isRainingCheck(icondId:str) -> bool:
     if icondId[:-1] == "09" or icondId[:-1] == "10" or icondId[:-1] == "11":
@@ -38,6 +37,11 @@ def isRainingCheck(icondId:str) -> bool:
     return False
 
 
-def findMood(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
-    pass
 
+def findClosetMood(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
+    dist=[]
+    for mood in moods:
+        dist.append((temp-mood[0])**2 + (wind-mood[1])**2 + (cloud-mood[2])**2 + (isRaining-mood[3])**2)
+    
+    print(dist)
+    return moods[dist.index(min(dist))]
