@@ -59,7 +59,7 @@ def get_playlist() -> dict:
 def add_playlist() -> dict:
     pass
 
-
+# route for the login popup
 @app.route("/loginpopup")
 def test() -> dict:
     return render_template("popup.html")

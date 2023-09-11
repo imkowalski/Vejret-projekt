@@ -41,7 +41,7 @@
         var loginSpotify = ()=>{
             var SPOTIPY_CLIENT_ID = "{{client_id}}"
             var SPOTIPY_REDIRECT_URI = "http://127.0.0.1:3000/loginpopup"
-            var spotifyScope = "user-read-private"
+            var spotifyScope = "user-read-private playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public"
             var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?"+"client_id="+SPOTIPY_CLIENT_ID+"&redirect_uri="+SPOTIPY_REDIRECT_URI+"&scope="+spotifyScope+"&response_type=token&state=123";
             window.open(spotifyAuthEndpoint,'callBackWindow','height=700,width=500');
             
@@ -51,3 +51,4 @@
 </body>
 
 </html>
+
