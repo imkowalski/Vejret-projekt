@@ -54,13 +54,11 @@ function draw() {
     site1();
   } else {
     push()
-    background(0,100);
-    stroke(50)
+    background(0,25);
     translate(width / 2, window.innerHeight / 2)
     rotate(frameCount*8%360)
     strokeWeight(10)
     noFill()
-    circle(0, 0, 40)
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -69,7 +67,7 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
-    text("Hacking The Mainframe...", 0, 50)
+    text("Hacking The Mainframe...", 0, 75)
     pop()
   }
 }
