@@ -14,3 +14,16 @@ git add .
 git commit -m "<skriv kort hvad du har lavet>"
 git push
 ````
+
+**Ny feature? Gør det her for at starte**
+````
+git branch <feature-navn>
+git checkout <feature-navn>
+````
+lav det du ved med nogen git commits ligesom normalt
+når din feature er færdig, testet og beskrivet med kommentar gør det her
+````
+git checkout main
+git merge <feature-navn>
+git branch -d <feature-navn>
+````
