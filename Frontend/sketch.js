@@ -54,11 +54,20 @@ function draw() {
     site1();
   } else {
     push()
+<<<<<<< HEAD
     background(0,25);
+=======
+    background(0,100);
+    stroke(50)
+>>>>>>> 067fdb4a8892da145d8c99e5b6566bea1b09030f
     translate(width / 2, window.innerHeight / 2)
     rotate(frameCount*8%360)
     strokeWeight(10)
     noFill()
+<<<<<<< HEAD
+=======
+    circle(0, 0, 40)
+>>>>>>> 067fdb4a8892da145d8c99e5b6566bea1b09030f
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -67,7 +76,11 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
+<<<<<<< HEAD
     text("Hacking The Mainframe...", 0, 75)
+=======
+    text("Hacking The Mainframe...", 0, 50)
+>>>>>>> 067fdb4a8892da145d8c99e5b6566bea1b09030f
     pop()
   }
 }
