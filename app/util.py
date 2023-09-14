@@ -1,35 +1,4 @@
-
-'''
-=====ENERGETIC=====
-temp avg:  20 
-wind avg:  10
-cloud avg:  15
-isRaining:  False
-
-=====CALM=====
-temp avg:  10
-wind avg:  5
-cloud avg:  50
-isRaining:  True
-
-=====SAD=====
-temp avg:  10
-wind avg:  15
-cloud avg:  80
-isRaining:  True
-
-=====HAPPY=====
-temp avg:  30
-wind avg:  5
-cloud avg:  0
-isRaining:  False
-'''
-
-energetic = (20,10,15,False)
-calm = (10,5,50,True)
-sad = (10,15,80,True)
-happy = (30,5,0,False)
-moods = [energetic,calm,sad,happy]
+import requests
 
 def isRainingCheck(icondId:str) -> bool:
     if icondId[:-1] == "09" or icondId[:-1] == "10" or icondId[:-1] == "11":
@@ -45,3 +14,53 @@ def findClosetMood(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
     
     print(dist)
     return moods[dist.index(min(dist))]
+
+
+def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:
+    baseURI = "https://api.spotify.com/v1/recommendations?limit=50&"
+    # Add genre
+    baseURI  += "seed_genres="+genre[0]
+    for g in genre[1:]: # [1:] means from index 1 to the end of the list
+        baseURI += ","+g
+    
+    # Add loudness
+    baseURI += "&target_loudness="+str(loudness)
+    # Add tempo
+    baseURI += "&target_tempo="+str(tempo)
+    # Add dancebility
+    baseURI += "&target_danceability="+str(dancebility)
+    # Add valence
+    baseURI += "&target_valence="+str(valence)
+    # Add acusticness
+    baseURI += "&target_acousticness="+str(acusticness)
+    # Add instrumentalness
+    baseURI += "&target_instrumentalness="+str(instrumentalness)
+    
+    return baseURI
+
+
+def getSongRecommendation(bestMoood:str,token: str)-> dict:
+    headers = {
+        "Authorization": "Bearer " + token
+    }
+    req = requests.get(getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers)
+    print(getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
+    print(req.status_code)
+    return req.json()
+
+
+
+def getListSongs(songs:dict) -> list:
+    listed_URI = []
+    for song in songs["tracks"]:
+        listed_URI.append(song["uri"])
+    return listed_URI
+
+
+
+'''
+GET https://api.spotify.com/v1/recommendations?limit=50&seed_genres=rock,pop,jazz&target_loudness=0.5&target_tempo=0.5&target_danceability=0.5&target_valence=0.5&target_acousticness=0.5&target_instrumentalness=0.5 HTTP/1.1
+Host: api.spotify.com
+Authorization: Bearer BQCm6UmwcZ83AnURa2olapNHlG0WwfUwH36pKMUWJ-rrgvcAd4TOq_s8B619NwxvgDUiu6x-7v_APge7YN6ey8OD9d7MFfDF4uhmAKHAYnvGk2nJgn0_BxtJdegWrbQmws-EbdoKFTC3eijbYJU5EkeUd-fLO9L01idK38dZyo2pJM5e8oUxxYZrXwIi8csl7WE4O6Ko3xYMzBm41UI6LjurT5uOP9kC5ZGvz7zs-lq7FeTpzVJ_t5mfRbiI5xsLMvlj
+'''    
+
