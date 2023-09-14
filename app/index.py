@@ -86,8 +86,7 @@ def add_playlist() -> dict:
         "description": "WinterBliss Generated Playlist based on the weather",
         "public": False,
     }
-    req = requests.post("https://api.spotify.com/v1/users/" +
-                        request.cookies.get("me")+"/playlists", headers=headers, json=data)
+    req = requests.post("https://api.spotify.com/v1/users/" +request.cookies.get("me")+"/playlists", headers=headers, json=data)
     playlist = req.json()
     
     print(request.get_data())
