@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, jsonify, redirect, make_response
+from flask import Flask, render_template, request, jsonify, redirect, make_response, session
 from flask_cors import CORS, cross_origin
 import requests
 import app.util as util
@@ -24,6 +24,7 @@ def get_link_now(lat: int, lon: int) -> str:
 # create the flask app
 app = Flask(__name__)
 CORS(app)
+app.secret_key = 'BAD_SECRET_KEY'
 
 # Head route and return the only page
 
@@ -62,40 +63,40 @@ def get_now() -> dict:
 @app.route("/getPlaylist")
 def get_playlist() -> dict:
     token = request.cookies.get("token")
-
-    mereq = requests.get("https://api.spotify.com/v1/me",
-                         headers={"Authorization": "Bearer " + token})
-    me = mereq.json()
-
     songs = util.getSongRecommendation(["1"], token)
     songURIs = util.getListSongs(songs)
-    res = make_response(jsonify(songURIs))
-    res.set_cookie("me", me["id"])
-
-    return res
-
+    session["songURIs"] = songURIs
+    return jsonify(songURIs)
 
 # add a route for the add playlist
 @app.route("/addPlaylist", methods=["POST", "GET"])
 def add_playlist() -> dict:
+    if request.cookies.get("token") == None:
+        return {"status":401,"error":"not logged in"}
+    
+    
+    mereq = requests.get("https://api.spotify.com/v1/me", headers={"Authorization": "Bearer " + request.cookies.get("token")})
+    me = mereq.json()
     headers = {
         "Authorization": "Bearer " + request.cookies.get("token"),
     }
     data = {
-        "name": str(datetime.date.today()),
+        "name": f'{request.json["where"]} - {str(datetime.date.today())}',
         "description": "WinterBliss Generated Playlist based on the weather",
-        "public": False,
+        "public": False
     }
-    req = requests.post("https://api.spotify.com/v1/users/" +request.cookies.get("me")+"/playlists", headers=headers, json=data)
+    req = requests.post("https://api.spotify.com/v1/users/" +me["id"]+"/playlists", headers=headers, json=data)
     playlist = req.json()
+    tracksURI = playlist["tracks"]["href"]
+    reqs = requests.post(tracksURI, headers=headers, json={"uris": session["songURIs"]})
     
-    print(request.get_data())
     
-    return req.json()
+    return jsonify(playlist)
 
 # route for the login popup
 
 
 @app.route("/loginpopup")
 def test() -> dict:
-    return render_template("popup.html")
+
+    return render_template(template_name_or_list="popup.html", title="WinterBliss")

@@ -20,7 +20,7 @@
     <script>
         let url_forcast;
         let url_weather;
-        let songs;
+        let where;
         req = async () => {
 
             navigator.geolocation.getCurrentPosition((position) => {
@@ -37,7 +37,7 @@
         let req3 = async () => {
             fetch(url_weather)
                 .then((res) => res.json())
-                .then((data) => console.log(data))
+                .then((data) => where = data.name)
                 .catch((err) => console.log(err))
         }
 
@@ -61,10 +61,19 @@
                 headers:{
                     "Content-Type":"application/json"
                 },
-                body:JSON.stringify(songs)
+                body:JSON.stringify({"where":where})
             })
             .then((res)=>res.json())
-            .then((data)=>console.log(data))
+            .then((data)=>{
+                if (!data.status){
+                    alert("Playlist added")
+                    window.open(data.external_urls.spotify, '_blank')
+                } else if (data.status == 401){
+                    loginSpotify()
+                } else {
+                    alert("Something went wrong")
+                }
+                console.log(data)})
         }
     </script>
 </body>

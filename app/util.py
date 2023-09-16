@@ -12,12 +12,11 @@ def findClosetMood(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
     for mood in moods:
         dist.append((temp-mood[0])**2 + (wind-mood[1])**2 + (cloud-mood[2])**2 + (isRaining-mood[3])**2)
     
-    print(dist)
     return moods[dist.index(min(dist))]
 
 
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:
-    baseURI = "https://api.spotify.com/v1/recommendations?limit=50&"
+    baseURI = "https://api.spotify.com/v1/recommendations?limit=50&market=DK&"
     # Add genre
     baseURI  += "seed_genres="+genre[0]
     for g in genre[1:]: # [1:] means from index 1 to the end of the list
