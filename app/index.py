@@ -42,10 +42,6 @@ def get() -> dict:
     data = res.json()
     sortedData = []
     # Filter weather data to get only one data poit a day, ignoring the first day
-    for i, item in enumerate(data["list"]):
-        if (i) % 8 == 0 and i != 0:
-            sortedData.append(data["list"][i])
-
     return jsonify(sortedData)
 
 
