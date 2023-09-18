@@ -56,7 +56,7 @@
         let getRec = ()=>{
             fetch("/getPlaylist")
             .then((res)=>res.json())
-            .then((data)=>songs = data)
+            .then((data)=> songs = data)
         }
         let addList = ()=>{
             fetch("/addPlaylist",{

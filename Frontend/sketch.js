@@ -9,6 +9,18 @@ function getIcon(icon) {
   return icon_url;
 }
 
+
+let loginSpotify = () =>{
+  let SPOTIPY_CLIENT_ID = "da3f7dfb4bfa445698546301ae1e8346"
+  let SPOTIPY_REDIRECT_URI = "http://127.0.0.1:3000/loginpopup"
+  if (window.location.hostname != "127.0.0.1" && window.location.hostname != "localhost"){
+      SPOTIPY_REDIRECT_URI = "https://vejret-projekt.vercel.app/loginpopup"
+  }
+  let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
+  let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?"+"client_id="+SPOTIPY_CLIENT_ID+"&redirect_uri="+SPOTIPY_REDIRECT_URI+"&scope="+spotifyScope+"&response_type=token&state=123";
+  window.open(spotifyAuthEndpoint,'callBackWindow','height=700,width=500');
+}
+
 function preload() {
   navigator.geolocation.getCurrentPosition((position) => {
     url_forcast = `http://localhost:3000/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
@@ -25,7 +37,7 @@ function preload() {
       .then((data) => forcast = data)
       .catch((err) => console.log(err))
   })
-
+  loginSpotify()
 }
 
 
@@ -35,6 +47,10 @@ function setup() {
   angleMode(DEGREES);
   noStroke();
   fill(255);
+  fetch("http://127.0.0.1:3000/getPlaylist")
+  .then((res)=>res.json())
+  .then((data)=> songs = data)
+
 
 
 }
@@ -54,13 +70,20 @@ function draw() {
     site_main();
   } else {
     push()
+<<<<<<< HEAD
     background(0, 100);
+=======
+    background(0,100);
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     stroke(50)
     translate(width / 2, window.innerHeight / 2)
     rotate(frameCount * 8 % 360)
     strokeWeight(10)
     noFill()
+<<<<<<< HEAD
     circle(0, 0, 40)
+=======
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -69,7 +92,11 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
+<<<<<<< HEAD
     text("Hacking The Mainframe...", 0, 50)
+=======
+    text("Hacking The Mainframe...", 0, 75)
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     pop()
   }
 }
