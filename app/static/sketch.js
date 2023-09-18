@@ -158,6 +158,26 @@ function site1() {
   image(icon, pW(80), pH(10), pW(10), pH(10))
 
 
+  //gå tur
+  fill(255)
+  rect(pW(55), 74, pW(40), 500, pW(1));
+  push()
+  noFill()
+  stroke(255, 0, 0)
+  strokeWeight(2)
+  arc(pW(75), 500, pW(39.9), 200, 180, 0)
+  pop()
+  push()
+  fill(0)
+  stroke(0)
+  textAlign(CENTER)
+  textSize(28)
+  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
+  text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
+  pop()
+  image(icon, pW(80), pH(10), icon.width, icon.height)
+
+
   //uge vejr
   rect(pW(5), 648, pW(40), height - 900, pW(1));
   push()
@@ -170,7 +190,7 @@ function site1() {
   text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
   pop()
   image(icon, pW(20), 750, icon.width, icon.height)
-  print(forcast)
+//print(forcast)
 
   //spotify
   rect(pW(55), 648, pW(40), height - 900, pW(1));
