@@ -159,8 +159,36 @@ function site1() {
 
 
   //uge vejr
-rect(pW(5), pH(55), pW(40), pH(80), pW(1));
->>>>>>> ad4d29d30b9d24911a2eb07c15c3bd4a2cdfccb5
+  rect(pW(5), 648, pW(40), height - 900, pW(1));
+  push()
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER)
+  text("Vejret gennem ugen", pW(25), 700)
+  text("I morgen", pW(10), 810)
+  text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  pop()
+  image(icon, pW(20), 750, icon.width, icon.height)
+  print(forcast)
+
+  //spotify
+  rect(pW(55), 648, pW(40), height - 900, pW(1));
+
+
+  //mere info
+  rect(pW(5), 2039, pW(40), 50, pW(1));
+
+
+  //kontakt prof hjælp
+  rect(pW(55), 2039, pW(40), 50, pW(1));
+
+
+  //indstillinger
+  push()
+  rectMode(CENTER)
+  rect(pW(50), 2163, pW(40), 50, pW(1));
+  pop()
 }
 
 function windowResized() {
