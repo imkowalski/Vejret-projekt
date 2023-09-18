@@ -45,7 +45,7 @@ function preload() {
 
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight * 2);
+  createCanvas(window.innerWidth, window.innerHeight * 3);
   angleMode(DEGREES);
   noStroke();
   fill(255);
@@ -61,18 +61,26 @@ function pH(prc) {
 }
 
 function draw() {
-  
+
   if (weather && forcast) {
     background(0);
-    site1();
+    site_main();
   } else {
     push()
+<<<<<<< HEAD
+    background(0, 100);
+=======
     background(0,100);
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     stroke(50)
     translate(width / 2, window.innerHeight / 2)
-    rotate(frameCount*8%360)
+    rotate(frameCount * 8 % 360)
     strokeWeight(10)
     noFill()
+<<<<<<< HEAD
+    circle(0, 0, 40)
+=======
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -81,7 +89,11 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
+<<<<<<< HEAD
+    text("Hacking The Mainframe...", 0, 50)
+=======
     text("Hacking The Mainframe...", 0, 75)
+>>>>>>> a71fc405306569996c2dd00cd343e4a053ad5ee9
     pop()
   }
 }
@@ -91,9 +103,9 @@ function sundeg() {
   return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
 }
 
-function site1() {
+function site_main() {
   //sol op/ned
-  background(255);
+  background(0);
   rect(pW(5), 74, pW(40), 500, pW(1));
   push()
   fill(255, 0, 0)
@@ -120,7 +132,7 @@ function site1() {
   noFill()
   stroke(0)
   strokeWeight(2)
-  arc(pW(25), 574-pW(1), pW(39.9), 400, 180, 0)
+  arc(pW(25), 574 - pW(1), pW(39.9), 400, 180, 0)
 
   text("jorden er her", pW(23), pH(35))
 
@@ -140,29 +152,57 @@ function site1() {
 
   //gå tur
   fill(255)
-  rect(pW(55), pH(5), pW(40), pH(40), 20);
+  rect(pW(55), 74, pW(40), 500, pW(1));
   push()
   noFill()
   stroke(255, 0, 0)
   strokeWeight(2)
-  arc(pW(75), pH(40), pW(39.9), pH(10), 180, 0)
+  arc(pW(75), 500, pW(39.9), 200, 180, 0)
   pop()
   push()
   fill(0)
   stroke(0)
-  //strokeWeight(2)
   textAlign(CENTER)
   textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), pH(42))
+  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
   text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
   pop()
-  image(icon, pW(80), pH(10), pW(10), pH(10))
+  image(icon, pW(80), pH(10), icon.width, icon.height)
 
 
   //uge vejr
-rect(pW(5), pH(55), pW(40), pH(80), pW(1));
+  rect(pW(5), 648, pW(40), height - 900, pW(1));
+  push()
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER)
+  text("Vejret gennem ugen", pW(25), 700)
+  text("I morgen", pW(10), 810)
+  text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  pop()
+  image(icon, pW(20), 750, icon.width, icon.height)
+//print(forcast)
+
+  //spotify
+  rect(pW(55), 648, pW(40), height - 900, pW(1));
+
+
+  //mere info
+  rect(pW(5), 2039, pW(40), 50, pW(1));
+
+
+  //kontakt prof hjælp
+  rect(pW(55), 2039, pW(40), 50, pW(1));
+
+
+  //indstillinger
+  push()
+  rectMode(CENTER)
+  rect(pW(50), 2163, pW(40), 50, pW(1));
+  pop()
 }
 
 function windowResized() {
-  resizeCanvas(window.innerWidth, window.innerHeight * 4);
+  resizeCanvas(window.innerWidth, window.innerHeight * 3);
 }
