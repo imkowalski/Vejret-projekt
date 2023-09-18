@@ -3,7 +3,6 @@ let url_weather;
 let weather;
 let forcast;
 let icon;
-let logged_in = false;
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -20,7 +19,6 @@ let loginSpotify = () =>{
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?"+"client_id="+SPOTIPY_CLIENT_ID+"&redirect_uri="+SPOTIPY_REDIRECT_URI+"&scope="+spotifyScope+"&response_type=token&state=123";
   window.open(spotifyAuthEndpoint,'callBackWindow','height=700,width=500');
-  
 }
 
 function preload() {
@@ -49,6 +47,11 @@ function setup() {
   angleMode(DEGREES);
   noStroke();
   fill(255);
+  fetch("http://127.0.0.1:3000/getPlaylist")
+  .then((res)=>res.json())
+  .then((data)=> songs = data)
+
+
 
 }
 
@@ -67,13 +70,12 @@ function draw() {
     site_main();
   } else {
     push()
-    background(0, 100);
+    background(0,100);
     stroke(50)
     translate(width / 2, window.innerHeight / 2)
     rotate(frameCount * 8 % 360)
     strokeWeight(10)
     noFill()
-    circle(0, 0, 40)
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -82,7 +84,7 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
-    text("Hacking The Mainframe...", 0, 75)
+    text("Hacking The Mainframe...", 0, 50)
     pop()
   }
 }
@@ -171,7 +173,7 @@ function site_main() {
   text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
   pop()
   image(icon, pW(20), 750, icon.width, icon.height)
-print(forcast)
+//print(forcast)
 
   //spotify
   rect(pW(55), 648, pW(40), height - 900, pW(1));
