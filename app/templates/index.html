@@ -1,85 +1,23 @@
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <style>
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{title}}</title>
-</head>
 
-<body>
+    <link rel="stylesheet" type="text/css" href="./static/style.css">
 
-    <h1>AI weather app to lower SAD (AVAMD🔥)</h1>
     
-    <button id="btn" onclick="req()">Get URL</button>
-    <button onclick="req2()">Get Forcast</button>
-    <button onclick="req3()">Get Weather</button>
-    <button onclick="loginSpotify()">Login Spotify</button>
-    <button onclick="getRec()">Recommendation</button>
-    <button onclick="addList()">Add Playlist</button>
-    <script>
-        let url_forcast;
-        let url_weather;
-        let where;
-        req = async () => {
-
-            navigator.geolocation.getCurrentPosition((position) => {
-                url_forcast = `/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-                url_weather = `/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-            })
-        }
-        let req2 = async () => {
-            fetch(url_forcast)
-                .then((res) => res.json())
-                .then((data) => console.log(data))
-                .catch((err) => console.log(err))
-        }
-        let req3 = async () => {
-            fetch(url_weather)
-                .then((res) => res.json())
-                .then((data) => where = data.name)
-                .catch((err) => console.log(err))
-        }
-
-        let loginSpotify = ()=>{
-            let SPOTIPY_CLIENT_ID = "{{client_id}}"
-            let SPOTIPY_REDIRECT_URI = "http://127.0.0.1:3000/loginpopup"
-            if (window.location.hostname != "127.0.0.1" && window.location.hostname != "localhost"){
-                SPOTIPY_REDIRECT_URI = "https://vejret-projekt.vercel.app/loginpopup"
-            }
-            let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
-            let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?"+"client_id="+SPOTIPY_CLIENT_ID+"&redirect_uri="+SPOTIPY_REDIRECT_URI+"&scope="+spotifyScope+"&response_type=token&state=123";
-            window.open(spotifyAuthEndpoint,'callBackWindow','height=700,width=500');
-            
-
-        }
-        let getRec = ()=>{
-            fetch("/getPlaylist")
-            .then((res)=>res.json())
-            .then((data)=> songs = data)
-        }
-        let addList = ()=>{
-            fetch("/addPlaylist",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({"where":where})
-            })
-            .then((res)=>res.json())
-            .then((data)=>{
-                if (!data.status){
-                    alert("Playlist added")
-                    window.open(data.external_urls.spotify, '_blank')
-                } else if (data.status == 401){
-                    loginSpotify()
-                } else {
-                    alert("Something went wrong")
-                }
-                console.log(data)})
-        }
-    </script>
-</body>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  </head>
+  <body>
+    <script src="./static/help.js"></script>
+    <script src="./static/sketch.js"></script>
+  </body>
 </html>
-

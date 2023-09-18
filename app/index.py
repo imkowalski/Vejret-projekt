@@ -22,7 +22,7 @@ def get_link_now(lat: int, lon: int) -> str:
 
 
 # create the flask app
-app = Flask(__name__)
+app = Flask(__name__,static_folder="static",template_folder="templates")
 CORS(app)
 app.secret_key = 'BAD_SECRET_KEY'
 
