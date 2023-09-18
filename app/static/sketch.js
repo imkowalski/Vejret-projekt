@@ -45,11 +45,10 @@ function preload() {
 
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight * 3);
+  createCanvas(window.innerWidth, window.innerHeight * 2);
   angleMode(DEGREES);
   noStroke();
   fill(255);
-
 }
 
 function pW(prc) {
@@ -61,19 +60,26 @@ function pH(prc) {
 }
 
 function draw() {
-
+  
   if (weather && forcast) {
     background(0);
-    site_main();
+    site1();
   } else {
     push()
+<<<<<<< HEAD
     background(0, 100);
+=======
+    background(0,100);
+>>>>>>> ad4d29d30b9d24911a2eb07c15c3bd4a2cdfccb5
     stroke(50)
     translate(width / 2, window.innerHeight / 2)
-    rotate(frameCount * 8 % 360)
+    rotate(frameCount*8%360)
     strokeWeight(10)
     noFill()
+<<<<<<< HEAD
     circle(0, 0, 40)
+=======
+>>>>>>> ad4d29d30b9d24911a2eb07c15c3bd4a2cdfccb5
     stroke(255)
     strokeWeight(15)
     point(0, -20)
@@ -92,9 +98,9 @@ function sundeg() {
   return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
 }
 
-function site_main() {
+function site1() {
   //sol op/ned
-  background(0);
+  background(255);
   rect(pW(5), 74, pW(40), 500, pW(1));
   push()
   fill(255, 0, 0)
@@ -121,7 +127,7 @@ function site_main() {
   noFill()
   stroke(0)
   strokeWeight(2)
-  arc(pW(25), 574 - pW(1), pW(39.9), 400, 180, 0)
+  arc(pW(25), 574-pW(1), pW(39.9), 400, 180, 0)
 
   text("jorden er her", pW(23), pH(35))
 
@@ -141,25 +147,27 @@ function site_main() {
 
   //gå tur
   fill(255)
-  rect(pW(55), 74, pW(40), 500, pW(1));
+  rect(pW(55), pH(5), pW(40), pH(40), 20);
   push()
   noFill()
   stroke(255, 0, 0)
   strokeWeight(2)
-  arc(pW(75), 500, pW(39.9), 200, 180, 0)
+  arc(pW(75), pH(40), pW(39.9), pH(10), 180, 0)
   pop()
   push()
   fill(0)
   stroke(0)
+  //strokeWeight(2)
   textAlign(CENTER)
   textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
+  text(Math.round(weather.main.temp) + "℃", pW(75), pH(42))
   text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
   pop()
-  image(icon, pW(80), pH(10), icon.width, icon.height)
+  image(icon, pW(80), pH(10), pW(10), pH(10))
 
 
   //uge vejr
+<<<<<<< HEAD
   rect(pW(5), 648, pW(40), height - 900, pW(1));
   push()
   fill(0)
@@ -190,8 +198,11 @@ print(forcast)
   rectMode(CENTER)
   rect(pW(50), 2163, pW(40), 50, pW(1));
   pop()
+=======
+rect(pW(5), pH(55), pW(40), pH(80), pW(1));
+>>>>>>> ad4d29d30b9d24911a2eb07c15c3bd4a2cdfccb5
 }
 
 function windowResized() {
-  resizeCanvas(window.innerWidth, window.innerHeight * 3);
+  resizeCanvas(window.innerWidth, window.innerHeight * 4);
 }
