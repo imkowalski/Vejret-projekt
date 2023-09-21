@@ -1,7 +1,7 @@
 let url_forcast;
 let url_weather;
-let weather;
-let forcast;
+let weather=1;
+let forcast=1;
 let icon;
 let logged_in = false;
 
@@ -24,7 +24,7 @@ let loginSpotify = () =>{
 }
 
 function preload() {
-  navigator.geolocation.getCurrentPosition((position) => {
+  /*navigator.geolocation.getCurrentPosition((position) => {
     url_forcast = `http://localhost:3000/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
     url_weather = `http://localhost:3000/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
 
@@ -38,14 +38,14 @@ function preload() {
       .then((res) => res.json())
       .then((data) => forcast = data)
       .catch((err) => console.log(err))
-  })
+  })*/
   loginSpotify()
 }
 
 
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight * 2);
+  createCanvas(window.innerWidth, window.innerHeight * 2.1);
   angleMode(DEGREES);
   noStroke();
   fill(255);
@@ -87,12 +87,45 @@ function draw() {
 
 function sundeg() {
   date = Date.now()
-  return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
+  return map(date, 1695271800 * 1000, 1695322200 * 1000, -45, 45)
+}
+
+function getDay(i) {
+day = new Date().getDay()
+day = day+1
+if (day+i > 6) {
+  day = day+i-7
+}
+switch (day) {
+  case 0:
+    return "Søndag"
+    break;
+  case 1:
+    return "Mandag"
+    break;
+  case 2:
+    return "Tirsdag"
+    break;
+  case 3:
+    return "Onsdag"
+    break;
+  case 4:
+    return "Torsdag"
+    break;
+  case 5:
+    return "Fredag"
+    break;
+  case 6:
+    return "Lørdag"
+    break;
+}
 }
 
 function site1() {
   //sol op/ned
-  background(255);
+  background(0);
+  fill(255);
+  noStroke();
   rect(pW(5), 74, pW(40), 500, pW(1));
   push()
   fill(255, 0, 0)
@@ -135,29 +168,6 @@ function site1() {
   circle(pW(45) - pW(1), 574 - pW(1), pW(2))
 
 
-
-
-  //gå tur
-  fill(255)
-  rect(pW(55), pH(5), pW(40), pH(40), 20);
-  push()
-  noFill()
-  stroke(255, 0, 0)
-  strokeWeight(2)
-  arc(pW(75), pH(40), pW(39.9), pH(10), 180, 0)
-  pop()
-  push()
-  fill(0)
-  stroke(0)
-  //strokeWeight(2)
-  textAlign(CENTER)
-  textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), pH(42))
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
-  pop()
-  image(icon, pW(80), pH(10), pW(10), pH(10))
-
-
   //gå tur
   fill(255)
   rect(pW(55), 74, pW(40), 500, pW(1));
@@ -172,10 +182,10 @@ function site1() {
   stroke(0)
   textAlign(CENTER)
   textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
+  text(Math.round(20) + "℃", pW(75), 475)
   text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
   pop()
-  image(icon, pW(80), pH(10), icon.width, icon.height)
+  //image(icon, pW(80), pH(10), icon.width, icon.height)
 
 
   //uge vejr
@@ -187,9 +197,17 @@ function site1() {
   textAlign(CENTER)
   text("Vejret gennem ugen", pW(25), 700)
   text("I morgen", pW(10), 810)
-  text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  //text(Math.round(forcast[0].main.temp_min) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  text(getDay(1), pW(10), 910)
+  //text(Math.round(forcast[1].main.temp_min) + "-" + Math.round(forcast[1].main.temp_max) + "℃", pW(37), 910)
+  text(getDay(2), pW(10), 1010)
+  //text(Math.round(forcast[2].main.temp_min) + "-" + Math.round(forcast[2].main.temp_max) + "℃", pW(37), 1010)
+  text(getDay(3), pW(10), 1110)
+  //text(Math.round(forcast[3].main.temp_min) + "-" + Math.round(forcast[3].main.temp_max) + "℃", pW(37), 1110)
+  text(getDay(4), pW(10), 1210)
+  //text(Math.round(forcast[4].main.temp_min) + "-" + Math.round(forcast[4].main.temp_max) + "℃", pW(37), 1210)
   pop()
-  image(icon, pW(20), 750, icon.width, icon.height)
+  //image(icon, pW(20), 750, icon.width, icon.height)
 //print(forcast)
 
   //spotify
@@ -197,20 +215,41 @@ function site1() {
 
 
   //mere info
-  rect(pW(5), 2039, pW(40), 50, pW(1));
-
+  rect(pW(5), 2039-(height - 900), pW(40), 50, pW(1));
+  push()
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER, CENTER)
+  text("Mere info om SAD", pW(25), 1415)
+  pop()
 
   //kontakt prof hjælp
-  rect(pW(55), 2039, pW(40), 50, pW(1));
+  rect(pW(55), 2039-(height - 900), pW(40), 50, pW(1));
+  push()
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER, CENTER)
+  text("Kontakt professionel hjælp", pW(75), 1415)
+  pop()
 
 
   //indstillinger
   push()
   rectMode(CENTER)
-  rect(pW(50), 2163, pW(40), 50, pW(1));
+  rect(pW(50), 2163-(height - 900), pW(40), 50, pW(1));
   pop()
+  push()
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER, CENTER)
+  text("Indstillinger", pW(50), 1415)
+  pop()
+  
 }
 
 function windowResized() {
-  resizeCanvas(window.innerWidth, window.innerHeight * 4);
+  resizeCanvas(window.innerWidth, window.innerHeight * 2.1);
 }
