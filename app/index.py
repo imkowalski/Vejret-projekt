@@ -51,26 +51,23 @@ def get_now() -> dict:
     return jsonify(data)
 
 
-@app.route("/getPreview")
-def preview():
-    preview = []
-    headers = {
-        "authorization": "Bearer " + request.cookies.get("token")
-    }
-    URIS = session["songURIs"]
-    for i in range(4):
-        preview.append(requests.get("https://api.spotify.com/v1/tracks/" + URIS[i], headers=headers).json())
-    return jsonify(preview)
-
 
 # add a route for the get playlisT
 @app.route("/getSongs")
 def get_playlist() -> dict:
     token = request.cookies.get("token")
-    songs = util.getSongRecommendation(["1"], token)
-    songURIs = util.getListSongs(songs)
-    session["songURIs"] = songURIs
-    return jsonify({"status": 201,"message": " A Ok", "songURIs": songURIs})
+    headers = {
+        "Authorization": "Bearer " + token
+    }
+    res = requests.get(util.getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers)
+    songs = res.json()
+    # songURIs = []
+    # for song in songs["tracks"]:
+    #     songURIs.append(song["uri"])
+    # preview = []
+    # for i in range(4):
+    #     preview.append(requests.get("https://api.spotify.com/v1/tracks/" + songURIs[i], headers=headers).json())
+    return jsonify({"status": 201,"message": " A Ok", "preview": songs})
 
 # add a route for the add playlist
 @app.route("/addPlaylist", methods=["POST", "GET"])

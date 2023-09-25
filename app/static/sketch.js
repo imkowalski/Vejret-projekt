@@ -21,8 +21,23 @@ let loginSpotify = () => {
   }
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
-  window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  const popup = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  const interval = setInterval(() => {
+      if (popup.closed) {
+          clearInterval(interval);
+          console.log('> Popup Closed');
+          spotify_state = "loged_in"
+      }
+  }, 500);
+}
 
+function spotifyLoadPreview() {
+  fetch("/getSongs")
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data)
+    spotify_state = "preview_loaded"
+  })
 }
 
 function preload() {
@@ -62,16 +77,12 @@ function pH(prc) {
 }
 
 function draw() {
-  if (spotify_state == "sign in") {
-    fetch("/getSongs")
-    .then(() => spotify_state = "songs_loaded")
-  }
-  else if (spotify_state == "songs_loaded") {
-    fetch("/getPreview")
-    .then((res) => print(res.json()))
+
+  if (spotify_state == "loged_in") {
+    spotifyLoadPreview()
   }
   if (weather && forcast) {
-    tempMax()
+    //tempMax()
     if (state == "front") {
       
      //console.log(forcast)

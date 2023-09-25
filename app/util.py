@@ -47,12 +47,6 @@ def getSongRecommendation(bestMoood:str,token: str)-> dict:
 
 
 
-def getListSongs(songs:dict) -> list:
-    listed_URI = []
-    for song in songs["tracks"]:
-        listed_URI.append(song["uri"])
-    return listed_URI
-
 
 
 '''
