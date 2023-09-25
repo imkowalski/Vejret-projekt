@@ -1,20 +1,19 @@
 
 from flask import Flask, render_template, request, jsonify, redirect, make_response, session
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import requests
 import app.util as util
 import datetime
 
 
 API_KEY = "8532bf33a86747305821dfbd9c8184fc"
-
-# get the link weather data from the API at returns the 5 day weather
+# get the link weather data from the API at returns the 5 day weather 
 
 
 def get_link_5day(lat: int, lon: int) -> str:
     return f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid="+API_KEY
 
-# get the link weather data from the API at returns the current weather
+# get the link weather data from the API at returns the current weather 
 
 
 def get_link_now(lat: int, lon: int) -> str:
@@ -22,12 +21,11 @@ def get_link_now(lat: int, lon: int) -> str:
 
 
 # create the flask app
-app = Flask(__name__,static_folder="static",template_folder="templates")
+app = Flask(__name__,static_folder="./static",template_folder="templates")
+app.secret_key = 'SECRET_KEY'
 CORS(app)
-app.secret_key = 'BAD_SECRET_KEY'
-
 # Head route and return the only page
-
+ 
 
 @app.route("/")
 def index() -> dict:
@@ -40,9 +38,7 @@ def get() -> dict:
     # get the weather data from the api
     res = requests.get(get_link_5day(request.args["lat"], request.args["lon"]))
     data = res.json()
-    sortedData = []
-    # Filter weather data to get only one data poit a day, ignoring the first day
-    return jsonify(sortedData)
+    return jsonify(data["list"])
 
 
 # add a route for the current weather
@@ -55,14 +51,26 @@ def get_now() -> dict:
     return jsonify(data)
 
 
-# add a route for the get playlist
-@app.route("/getPlaylist")
+@app.route("/getPreview")
+def preview():
+    preview = []
+    headers = {
+        "authorization": "Bearer " + request.cookies.get("token")
+    }
+    URIS = session["songURIs"]
+    for i in range(4):
+        preview.append(requests.get("https://api.spotify.com/v1/tracks/" + URIS[i], headers=headers).json())
+    return jsonify(preview)
+
+
+# add a route for the get playlisT
+@app.route("/getSongs")
 def get_playlist() -> dict:
     token = request.cookies.get("token")
     songs = util.getSongRecommendation(["1"], token)
     songURIs = util.getListSongs(songs)
     session["songURIs"] = songURIs
-    return jsonify(songURIs)
+    return jsonify({"status": 201,"message": " A Ok", "songURIs": songURIs})
 
 # add a route for the add playlist
 @app.route("/addPlaylist", methods=["POST", "GET"])
@@ -89,9 +97,9 @@ def add_playlist() -> dict:
     
     return jsonify(playlist)
 
-# route for the login popup
+# route for the login popup  
 
-
+ 
 @app.route("/loginpopup")
 def test() -> dict:
 

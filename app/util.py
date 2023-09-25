@@ -7,7 +7,7 @@ def isRainingCheck(icondId:str) -> bool:
 
 
 
-def findClosetMood(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
+def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
     dist=[]
     for mood in moods:
         dist.append((temp-mood[0])**2 + (wind-mood[1])**2 + (cloud-mood[2])**2 + (isRaining-mood[3])**2)
@@ -19,7 +19,7 @@ def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:fl
     baseURI = "https://api.spotify.com/v1/recommendations?limit=50&market=DK&"
     # Add genre
     baseURI  += "seed_genres="+genre[0]
-    for g in genre[1:]: # [1:] means from index 1 to the end of the list
+    for g in genre[1:]: # [1:] means from index 1 to the end of the list 
         baseURI += ","+g
     
     # Add loudness
@@ -43,8 +43,6 @@ def getSongRecommendation(bestMoood:str,token: str)-> dict:
         "Authorization": "Bearer " + token
     }
     req = requests.get(getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers)
-    print(getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
-    print(req.status_code)
     return req.json()
 
 
