@@ -36,7 +36,6 @@ function spotifyLoadPreview() {
   .then((res) => res.json())
   .then((data) => {
     console.log(data)
-    spotify_state = "preview_loaded"
   })
 }
 
@@ -80,6 +79,7 @@ function draw() {
 
   if (spotify_state == "loged_in") {
     spotifyLoadPreview()
+    spotify_state = "preview_loaded"
   }
   if (weather && forcast) {
     //tempMax()

@@ -59,15 +59,10 @@ def get_playlist() -> dict:
     headers = {
         "Authorization": "Bearer " + token
     }
-    res = requests.get(util.getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers)
-    songs = res.json()
-    # songURIs = []
-    # for song in songs["tracks"]:
-    #     songURIs.append(song["uri"])
-    # preview = []
-    # for i in range(4):
-    #     preview.append(requests.get("https://api.spotify.com/v1/tracks/" + songURIs[i], headers=headers).json())
-    return jsonify({"status": 201,"message": " A Ok", "preview": songs})
+    songs = requests.get(util.getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers).json()
+    print(songs)
+    session["songURIs"] = [song["uri"] for song in songs["tracks"]]
+    return jsonify({"status": 201,"message": " A Ok", "songs":songs})
 
 # add a route for the add playlist
 @app.route("/addPlaylist", methods=["POST", "GET"])
