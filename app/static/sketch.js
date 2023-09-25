@@ -5,7 +5,8 @@ let forcast;
 let icon;
 let spotify_state = "sign in";
 let state = "front";
-let earth;
+let frame1;
+let frame2;
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -41,7 +42,8 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  earth = loadImage('https://upload.wikimedia.org/wikipedia/commons/2/22/Earth_Western_Hemisphere_transparent_background.png');
+  frame1 = loadImage('https://ibb.co/jrCGJ58');
+  frame2 = loadImage('https://ibb.co/rfTGJ2G');
 }
 
 
@@ -62,16 +64,8 @@ function pH(prc) {
 }
 
 function draw() {
-  if (spotify_state == "sign in") {
-    fetch("/getSongs")
-    .then(() => spotify_state = "songs_loaded")
-  }
-  else if (spotify_state == "songs_loaded") {
-    fetch("/getPreview")
-    .then((res) => print(res.json()))
-  }
+  
   if (weather && forcast) {
-    tempMax()
     if (state == "front") {
       
      //console.log(forcast)
@@ -105,7 +99,7 @@ function draw() {
 
 function sundeg() {
   date = Date.now()
-  return map(date, 1695271800 * 1000, 1695322200 * 1000, -45, 45)
+  return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
 }
 
 function getDay(i) {
@@ -135,7 +129,8 @@ function site1() {
   background(0);
   fill(255);
   noStroke();
-  rect(pW(5), 74, pW(40), 500, 20);
+  //rect(pW(5), 74, pW(40), 500, 20);
+  image(frame1, pW(5), 74, pW(40), 500, 20);
   push()
   fill('yellow')
   translate(pW(25), 574)
@@ -143,34 +138,20 @@ function site1() {
   circle(pW(0), -300, pW(5))
   circle(pW(0), 0, pW(5))
   pop()
-
+  image(frame2, pW(5), 74, pW(40), 500, 20);
   push()
   fill(0)
   stroke(0)
   //strokeWeight(2)
   textAlign(CENTER)
   textSize(20)
-  text(new Date().toLocaleTimeString('en-GB', {
-    hour: "numeric",
-    minute: "numeric"
-  }), pW(25), 148)
+  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
   pop()
 
-  //"jorden"
-  imageMode(CENTER)
-  image(earth, pW(25), 574, 670, 500)
-  push()
-  noFill()
-  stroke(0)
-  strokeWeight(2)
-  //arc(pW(25), 574 - 20, pW(39.9), 400, 180, 0)
-  //text("jorden er her", pW(23), pH(35))
-  pop()
-  push()
-  fill(0)
-  rect(0, 574, width, height);
+  
 
-  //trekanter
+
+  /*/trekanter
   fill(0, 255, 0)
   triangle(pW(5), 560, pW(5), 200, pW(20), 574)
   triangle(pW(5) + 20, 574, pW(5), 200, pW(20), 574)
@@ -178,7 +159,7 @@ function site1() {
   triangle(pW(45), 574 - 20, pW(45), 200, pW(30), 574)
   triangle(pW(45) - 20, 574, pW(45), 200, pW(30), 574)
   circle(pW(45) - 20, 574 - 20, 40)
-
+*/
 
   //gå tur
   fill(255)
@@ -209,15 +190,15 @@ function site1() {
   textAlign(CENTER)
   text("Vejret gennem ugen", pW(25), 700)
   text("I morgen", pW(10), 810)
-  //text(Math.round(forcast[0].main.temp) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 810)
   text(getDay(1), pW(10), 910)
-  //text(Math.round(forcast[1].main.temp_min) + "-" + Math.round(forcast[1].main.temp_max) + "℃", pW(37), 910)
+  text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 910)
   text(getDay(2), pW(10), 1010)
-  //text(Math.round(forcast[2].main.temp_min) + "-" + Math.round(forcast[2].main.temp_max) + "℃", pW(37), 1010)
+  text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
   text(getDay(3), pW(10), 1110)
-  //text(Math.round(forcast[3].main.temp_min) + "-" + Math.round(forcast[3].main.temp_max) + "℃", pW(37), 1110)
+  text(tempMin(4) + "℃ -" + tempMin(4) + "℃", pW(37), 1110)
   text(getDay(4), pW(10), 1210)
-  //text(Math.round(forcast[4].main.temp_min) + "-" + Math.round(forcast[4].main.temp_max) + "℃", pW(37), 1210)
+  text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
   pop()
   //image(icon, pW(20), 750, icon.width, icon.height)
 
@@ -259,7 +240,7 @@ function mereInfo() {
   stroke(0)
   textSize(28)
   textAlign(CENTER, CENTER)
-  text("Tilbage", pW(50), 100)
+  text("Så google det dog forhælvede din idiot", pW(50), 100)
   rectMode(CENTER)
   rect(pW(10), 100, 40, 10);
   triangle(pW(10) - 40, 100, pW(10)-20, 90, pW(10)-20, 110)
