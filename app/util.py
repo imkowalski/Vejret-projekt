@@ -8,11 +8,7 @@ def isRainingCheck(icondId:str) -> bool:
 
 
 def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
-    dist=[]
-    for mood in moods:
-        dist.append((temp-mood[0])**2 + (wind-mood[1])**2 + (cloud-mood[2])**2 + (isRaining-mood[3])**2)
-    
-    return moods[dist.index(min(dist))]
+    pass
 
 
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:

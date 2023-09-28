@@ -21,7 +21,7 @@ def get_link_now(lat: int, lon: int) -> str:
 
 
 # create the flask app
-app = Flask(__name__,static_folder="./static",template_folder="templates")
+app = Flask(__name__,static_folder="static",template_folder="templates")
 app.secret_key = 'SECRET_KEY'
 CORS(app)
 # Head route and return the only page
@@ -53,7 +53,7 @@ def get_now() -> dict:
 
 
 
-# add a route for the get playlisT
+# add a route for the get playlist
 @app.route("/getSongs")
 def get_playlist() -> dict:
     token = request.cookies.get("token")
