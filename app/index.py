@@ -60,7 +60,6 @@ def get_playlist() -> dict:
         "Authorization": "Bearer " + token
     }
     songs = requests.get(util.getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers).json()
-    print(songs)
     session["songURIs"] = [song["uri"] for song in songs["tracks"]]
     return jsonify({"status": 201,"message": " A Ok", "songs":songs})
 

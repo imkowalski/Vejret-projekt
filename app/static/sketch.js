@@ -76,11 +76,10 @@ function pH(prc) {
 }
 
 function draw() {
-
   if (spotify_state == "loged_in") {
     spotifyLoadPreview()
     spotify_state = "preview_loaded"
-  }
+  } 
   if (weather && forcast) {
     //tempMax()
     if (state == "front") {
