@@ -7,7 +7,7 @@ let spotify_state = "sign in";
 let state = "front";
 let frame1;
 let frame2;
-let frame4;
+let frame3;
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -45,7 +45,7 @@ function preload() {
   loginSpotify()
   frame1 = loadImage('./static/Frame_1.png');
   frame2 = loadImage('./static/Frame_2.png');
-  frame4 = loadImage('./static/Frame_4.png');
+  frame3 = loadImage('./static/Frame_3.png');
 }
 
 
@@ -157,7 +157,7 @@ function site1() {
   fill(255)
   //rect(pW(55), 74, pW(40), 500, 20);
   image(frame1, pW(55), 74, pW(40), 500);
-  image(frame4, pW(55), 74, pW(40), 500);
+  image(frame3, pW(55), 74, pW(40), 500);
   /*push()
   noFill()
   stroke(255, 0, 0)
