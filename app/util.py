@@ -34,7 +34,6 @@ def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:fl
     baseURI += "&target_acousticness="+str(acusticness)
     # Add instrumentalness
     baseURI += "&target_instrumentalness="+str(instrumentalness)
-    print(baseURI)
     return baseURI
 
 

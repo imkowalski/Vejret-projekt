@@ -4,6 +4,7 @@ let weather;
 let forcast;
 let icon;
 let spotify_state = "sign in";
+let songs = [];
 let state = "front";
 let earth;
 
@@ -25,7 +26,6 @@ let loginSpotify = () => {
   const interval = setInterval(() => {
       if (popup.closed) {
           clearInterval(interval);
-          console.log('> Popup Closed');
           spotify_state = "loged_in"
       }
   }, 500);
@@ -35,7 +35,7 @@ function spotifyLoadPreview() {
   fetch("/getSongs")
   .then((res) => res.json())
   .then((data) => {
-    console.log(data)
+    songs = data["songs"]["tracks"]
   })
 }
 
@@ -233,7 +233,8 @@ function site1() {
 
   //spotify
   rect(pW(55), 648, pW(40), 652, 20);
-
+  drawSpotify(pW(55), 648, pW(40), 652, songs);
+  
 
   //mere info
   rect(pW(5), 1387, pW(40), 50, 20);
