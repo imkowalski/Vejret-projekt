@@ -7,6 +7,7 @@ let spotify_state = "sign in";
 let state = "front";
 let frame1;
 let frame2;
+let frame4;
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -42,8 +43,9 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  frame1 = loadImage('https://ibb.co/jrCGJ58');
-  frame2 = loadImage('https://ibb.co/rfTGJ2G');
+  frame1 = loadImage('./static/Frame_1.png');
+  frame2 = loadImage('./static/Frame_2.png');
+  frame4 = loadImage('./static/Frame_4.png');
 }
 
 
@@ -64,18 +66,18 @@ function pH(prc) {
 }
 
 function draw() {
-  
+
   if (weather && forcast) {
     if (state == "front") {
-      
-     //console.log(forcast)
-      
-      
+
+      //console.log(forcast)
+
+
       background(0);
       site1();
     } else if (state == "mereInfo") {
       mereInfo();
-    } 
+    }
   } else {
     push()
     background(0, 100);
@@ -92,6 +94,8 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
+    stroke(255)
+    fill(255)
     text("Hacking The Mainframe...", 0, 75)
     pop()
   }
@@ -130,53 +134,43 @@ function site1() {
   fill(255);
   noStroke();
   //rect(pW(5), 74, pW(40), 500, 20);
-  image(frame1, pW(5), 74, pW(40), 500, 20);
+  image(frame1, pW(5), 74, pW(40), 500);
   push()
   fill('yellow')
   translate(pW(25), 574)
   rotate(sundeg())
   circle(pW(0), -300, pW(5))
-  circle(pW(0), 0, pW(5))
+  //outcircle(pW(0), 0, pW(5))
   pop()
-  image(frame2, pW(5), 74, pW(40), 500, 20);
+  image(frame2, pW(5.3), 65, pW(39.4), 500);
   push()
   fill(0)
   stroke(0)
-  //strokeWeight(2)
+  //strokeWeight(2) 
   textAlign(CENTER)
   textSize(20)
   text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
   pop()
 
-  
-
-
-  /*/trekanter
-  fill(0, 255, 0)
-  triangle(pW(5), 560, pW(5), 200, pW(20), 574)
-  triangle(pW(5) + 20, 574, pW(5), 200, pW(20), 574)
-  circle(pW(5) + 20, 574 - 20, 40)
-  triangle(pW(45), 574 - 20, pW(45), 200, pW(30), 574)
-  triangle(pW(45) - 20, 574, pW(45), 200, pW(30), 574)
-  circle(pW(45) - 20, 574 - 20, 40)
-*/
 
   //gå tur
   fill(255)
-  rect(pW(55), 74, pW(40), 500, 20);
-  push()
+  //rect(pW(55), 74, pW(40), 500, 20);
+  image(frame1, pW(55), 74, pW(40), 500);
+  image(frame4, pW(55), 74, pW(40), 500);
+  /*push()
   noFill()
   stroke(255, 0, 0)
   strokeWeight(2)
   arc(pW(75), 500, pW(39.9), 200, 180, 0)
-  pop()
+  pop()*/
   push()
   fill(0)
   stroke(0)
   textAlign(CENTER)
   textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 100)
   pop()
   //image(icon, pW(80), pH(10), icon.width, icon.height)
 
@@ -200,7 +194,7 @@ function site1() {
   text(getDay(4), pW(10), 1210)
   text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
   pop()
-  //image(icon, pW(20), 750, icon.width, icon.height)
+  //image(icon, pW(20), 750, icon.width, icon.height) 
 
   //spotify
   rect(pW(55), 648, pW(40), 652, 20);
@@ -243,18 +237,19 @@ function mereInfo() {
   text("Så google det dog forhælvede din idiot", pW(50), 100)
   rectMode(CENTER)
   rect(pW(10), 100, 40, 10);
-  triangle(pW(10) - 40, 100, pW(10)-20, 90, pW(10)-20, 110)
-  pop()}
+  triangle(pW(10) - 40, 100, pW(10) - 20, 90, pW(10) - 20, 110)
+  pop()
+}
 
 
 
 function mousePressed() {
-  if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state=="front") {
+  if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state == "front") {
     state = "mereInfo"
     mereInfo()
-  }if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state=="front") {
+  } if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state == "front") {
     window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank")
-  }if (mouseX > pW(5) && mouseX < pW(5) + pW(90) && mouseY > 74 && mouseY < 74+50 && state=="mereInfo") {
+  } if (mouseX > pW(5) && mouseX < pW(5) + pW(90) && mouseY > 74 && mouseY < 74 + 50 && state == "mereInfo") {
     state = "front"
     site1()
   }

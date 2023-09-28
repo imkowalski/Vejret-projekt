@@ -1,23 +1,27 @@
 
 function tempMax(dag) {
     let arrMax = [];
+    let arrhour = [];
+    let arrout = [111,111];
     let dt = 0;
     dt = new Date(0);
     dt.setUTCSeconds(forcast[0].dt);
     let date = dt.getDate() + dag;
     let maxtemp;
-
+    
     for (i = 0; i < 40; i++) {
         let temp = new Date(0);
         temp.setUTCSeconds(forcast[i].dt);
         let date1 = temp.getDate();
-
+        
         if (date == date1) {
             arrMax.push(forcast[i].main.temp);
             maxtemp = Math.max(...arrMax);
+           
         }
     }
     return Math.round(maxtemp);
+    
 }
 
 function tempMin(dag) {
