@@ -5,7 +5,9 @@ let forcast;
 let icon;
 let spotify_state = "sign in";
 let state = "front";
-let earth;
+let frame1;
+let frame2;
+let frame4;
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -41,7 +43,9 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  earth = loadImage('https://upload.wikimedia.org/wikipedia/commons/2/22/Earth_Western_Hemisphere_transparent_background.png');
+  frame1 = loadImage('./static/Frame_1.png');
+  frame2 = loadImage('./static/Frame_2.png');
+  frame4 = loadImage('./static/Frame_4.png');
 }
 
 
@@ -62,26 +66,18 @@ function pH(prc) {
 }
 
 function draw() {
-  if (spotify_state == "sign in") {
-    fetch("/getSongs")
-    .then(() => spotify_state = "songs_loaded")
-  }
-  else if (spotify_state == "songs_loaded") {
-    fetch("/getPreview")
-    .then((res) => print(res.json()))
-  }
+
   if (weather && forcast) {
-    tempMax()
     if (state == "front") {
-      
-     //console.log(forcast)
-      
-      
+
+      //console.log(forcast)
+
+
       background(0);
       site1();
     } else if (state == "mereInfo") {
       mereInfo();
-    } 
+    }
   } else {
     push()
     background(0, 100);
@@ -98,6 +94,8 @@ function draw() {
     translate(width / 2, window.innerHeight / 2)
     textSize(20)
     textAlign(CENTER)
+    stroke(255)
+    fill(255)
     text("Hacking The Mainframe...", 0, 75)
     pop()
   }
@@ -105,7 +103,7 @@ function draw() {
 
 function sundeg() {
   date = Date.now()
-  return map(date, 1695271800 * 1000, 1695322200 * 1000, -45, 45)
+  return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
 }
 
 function getDay(i) {
@@ -135,67 +133,44 @@ function site1() {
   background(0);
   fill(255);
   noStroke();
-  rect(pW(5), 74, pW(40), 500, 20);
+  //rect(pW(5), 74, pW(40), 500, 20);
+  image(frame1, pW(5), 74, pW(40), 500);
   push()
   fill('yellow')
   translate(pW(25), 574)
   rotate(sundeg())
   circle(pW(0), -300, pW(5))
-  circle(pW(0), 0, pW(5))
+  //outcircle(pW(0), 0, pW(5))
   pop()
-
+  image(frame2, pW(5.3), 65, pW(39.4), 500);
   push()
   fill(0)
   stroke(0)
-  //strokeWeight(2)
+  //strokeWeight(2) 
   textAlign(CENTER)
   textSize(20)
-  text(new Date().toLocaleTimeString('en-GB', {
-    hour: "numeric",
-    minute: "numeric"
-  }), pW(25), 148)
+  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
   pop()
-
-  //"jorden"
-  imageMode(CENTER)
-  image(earth, pW(25), 574, 670, 500)
-  push()
-  noFill()
-  stroke(0)
-  strokeWeight(2)
-  //arc(pW(25), 574 - 20, pW(39.9), 400, 180, 0)
-  //text("jorden er her", pW(23), pH(35))
-  pop()
-  push()
-  fill(0)
-  rect(0, 574, width, height);
-
-  //trekanter
-  fill(0, 255, 0)
-  triangle(pW(5), 560, pW(5), 200, pW(20), 574)
-  triangle(pW(5) + 20, 574, pW(5), 200, pW(20), 574)
-  circle(pW(5) + 20, 574 - 20, 40)
-  triangle(pW(45), 574 - 20, pW(45), 200, pW(30), 574)
-  triangle(pW(45) - 20, 574, pW(45), 200, pW(30), 574)
-  circle(pW(45) - 20, 574 - 20, 40)
 
 
   //gå tur
   fill(255)
-  rect(pW(55), 74, pW(40), 500, 20);
-  push()
+  //rect(pW(55), 74, pW(40), 500, 20);
+  image(frame1, pW(55), 74, pW(40), 500);
+  image(frame4, pW(55), 74, pW(40), 500);
+  /*push()
   noFill()
   stroke(255, 0, 0)
   strokeWeight(2)
   arc(pW(75), 500, pW(39.9), 200, 180, 0)
-  pop()
+  pop()*/
   push()
   fill(0)
   stroke(0)
   textAlign(CENTER)
   textSize(28)
-  text(Math.round(weather.main.temp) + "℃", pW(75), 475)
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), pH(10))
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 100)
   pop()
   //image(icon, pW(80), pH(10), icon.width, icon.height)
 
@@ -209,17 +184,17 @@ function site1() {
   textAlign(CENTER)
   text("Vejret gennem ugen", pW(25), 700)
   text("I morgen", pW(10), 810)
-  //text(Math.round(forcast[0].main.temp) + "-" + Math.round(forcast[0].main.temp_max) + "℃", pW(37), 810)
+  text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 810)
   text(getDay(1), pW(10), 910)
-  //text(Math.round(forcast[1].main.temp_min) + "-" + Math.round(forcast[1].main.temp_max) + "℃", pW(37), 910)
+  text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 910)
   text(getDay(2), pW(10), 1010)
-  //text(Math.round(forcast[2].main.temp_min) + "-" + Math.round(forcast[2].main.temp_max) + "℃", pW(37), 1010)
+  text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
   text(getDay(3), pW(10), 1110)
-  //text(Math.round(forcast[3].main.temp_min) + "-" + Math.round(forcast[3].main.temp_max) + "℃", pW(37), 1110)
+  text(tempMin(4) + "℃ -" + tempMin(4) + "℃", pW(37), 1110)
   text(getDay(4), pW(10), 1210)
-  //text(Math.round(forcast[4].main.temp_min) + "-" + Math.round(forcast[4].main.temp_max) + "℃", pW(37), 1210)
+  text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
   pop()
-  //image(icon, pW(20), 750, icon.width, icon.height)
+  //image(icon, pW(20), 750, icon.width, icon.height) 
 
   //spotify
   rect(pW(55), 648, pW(40), 652, 20);
@@ -259,21 +234,22 @@ function mereInfo() {
   stroke(0)
   textSize(28)
   textAlign(CENTER, CENTER)
-  text("Tilbage", pW(50), 100)
+  text("Så google det dog forhælvede din idiot", pW(50), 100)
   rectMode(CENTER)
   rect(pW(10), 100, 40, 10);
-  triangle(pW(10) - 40, 100, pW(10)-20, 90, pW(10)-20, 110)
-  pop()}
+  triangle(pW(10) - 40, 100, pW(10) - 20, 90, pW(10) - 20, 110)
+  pop()
+}
 
 
 
 function mousePressed() {
-  if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state=="front") {
+  if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state == "front") {
     state = "mereInfo"
     mereInfo()
-  }if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state=="front") {
+  } if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50 && state == "front") {
     window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank")
-  }if (mouseX > pW(5) && mouseX < pW(5) + pW(90) && mouseY > 74 && mouseY < 74+50 && state=="mereInfo") {
+  } if (mouseX > pW(5) && mouseX < pW(5) + pW(90) && mouseY > 74 && mouseY < 74 + 50 && state == "mereInfo") {
     state = "front"
     site1()
   }

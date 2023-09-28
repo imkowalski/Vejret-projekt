@@ -8,12 +8,12 @@ import datetime
 
 API_KEY = "8532bf33a86747305821dfbd9c8184fc"
 # get the link weather data from the API at returns the 5 day weather 
-
+ 
 
 def get_link_5day(lat: int, lon: int) -> str:
     return f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid="+API_KEY
 
-# get the link weather data from the API at returns the current weather 
+# get the link weather data from the API at returns the current weather
 
 
 def get_link_now(lat: int, lon: int) -> str:
@@ -24,7 +24,7 @@ def get_link_now(lat: int, lon: int) -> str:
 app = Flask(__name__,static_folder="./static",template_folder="templates")
 app.secret_key = 'SECRET_KEY'
 CORS(app)
-# Head route and return the only page
+# Head route and return the only page 
  
 
 @app.route("/")
