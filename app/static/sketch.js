@@ -20,7 +20,7 @@ let loginSpotify = () => {
   let SPOTIPY_CLIENT_ID = "da3f7dfb4bfa445698546301ae1e8346"
   let SPOTIPY_REDIRECT_URI = "http://127.0.0.1:3000/loginpopup"
   if (window.location.hostname != "127.0.0.1" && window.location.hostname != "localhost") {
-    SPOTIPY_REDIRECT_URI = "https://vejret-projekt.vercel.app/loginpopup"
+    SPOTIPY_REDIRECT_URI = "http://imkowalski.pythonanywhere.com/loginpopup"
   }
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
