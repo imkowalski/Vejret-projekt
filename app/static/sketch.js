@@ -62,7 +62,7 @@ function pW(prc) {
 function draw() {
 
   if (weather && forcast) {
-    background(0);
+    background('#51809b');
     site1();
 
   } else {
@@ -117,7 +117,7 @@ function getDay(i) {
 
 function site1() {
   //sol op/ned
-  background(0);
+  background('#51809b');
   fill(255);
   noStroke();
   image(frame1, pW(5), 74, pW(40), 500);
@@ -165,7 +165,7 @@ function site1() {
   text(getDay(2), pW(10), 1010)
   text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
   text(getDay(3), pW(10), 1110)
-  text(tempMin(4) + "℃ -" + tempMin(4) + "℃", pW(37), 1110)
+  text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1110)
   text(getDay(4), pW(10), 1210)
   text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
   pop()
