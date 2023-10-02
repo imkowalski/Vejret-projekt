@@ -5,6 +5,7 @@ let forcast;
 let icon;
 let spotify_state = "sign in";
 let songs = [];
+let weather_loaded = false;
 let frame1;
 let frame2;
 let frame3;
@@ -39,6 +40,7 @@ function spotifyLoadPreview() {
     .then((data) => {
       songs = data["songs"]["tracks"]
     })
+
 }
 
 function preload() {
@@ -48,7 +50,10 @@ function preload() {
 
     fetch(url_weather)
       .then((res) => res.json())
-      .then((data) => weather = data)
+      .then((data) => {
+        weather = data
+        weather_loaded = true
+      })
       .catch((err) => console.log(err))
 
     fetch(url_forcast)
@@ -57,7 +62,7 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  
+
   //image preloading
   frame1 = loadImage('./static/Frame_1.png');
   frame2 = loadImage('./static/Frame_2.png');
@@ -75,15 +80,13 @@ function pW(prc) {
 }
 
 function draw() {
-  print(spotify_state)
-  if (spotify_state == "loged_in") {
-    spotifyLoadPreview()
-    spotify_state = "preview_loaded"
-  }
   if (weather && forcast) {
     background(0);
     site1();
-
+    if (spotify_state == "loged_in" && weather_loaded == true) {
+      spotifyLoadPreview()
+      spotify_state = "preview_loaded"
+    }
   } else {
     push()
     background(0, 100);
@@ -190,7 +193,6 @@ function site1() {
   pop()
 
   //spotify
-  rect(pW(55), 648, pW(40), 652, 20);
   drawSpotify(pW(55), 648, pW(40), 652, songs);
 
   //mere info
