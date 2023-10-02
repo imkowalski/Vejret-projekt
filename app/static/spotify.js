@@ -31,10 +31,10 @@ function drawSpotify(startX, startY, widthX, heightY, tracks) {
             textAlign(LEFT,TOP)
             textSize(22)
             fill(255)
-            text(tracks[i]["name"], startX + x(25), startY + y(15) + y(19)*i,x(60), y(5))
+            text(tracks[i]["name"], startX + x(30), startY + y(15) + y(19)*i,x(60), y(5))
             textSize(16)
             fill(200)
-            text(tracks[i]["artists"][0]["name"],startX + x(25), startY + y(20) + y(19)*i,x(60), y(5))
+            text(tracks[i]["artists"][0]["name"],startX + x(30), startY + y(20) + y(19)*i,x(60), y(5))
         }
     }
     fill(30, 215, 96)
