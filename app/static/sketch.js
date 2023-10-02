@@ -169,7 +169,8 @@ function site1() {
   textAlign(CENTER)
   textSize(28)
   text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 100)
+  let bestTime = new Date(timeForMaxTemp().dt)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 100)
   pop()
 
   //uge vejr
