@@ -95,4 +95,3 @@ def test() -> dict:
     return render_template(template_name_or_list="popup.html", title="WinterBliss")
 
 
-app.run(debug=True, port=3000)
