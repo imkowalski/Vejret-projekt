@@ -1,4 +1,6 @@
 import requests
+import random
+
 
 def isRainingCheck(icondId:str) -> bool:
     if icondId[:-1] == "09" or icondId[:-1] == "10" or icondId[:-1] == "11":
@@ -14,27 +16,93 @@ def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
         "acusticness": 0.5,
         "loudness": 0.5,
         "tempo": 0.5,
-        "Instrumentalness": 0.5,
+        "instrumentalness": 0.5,
         "dancebility": 0.5
     }
-    budge = 0.1
+    genres = []
+    budge = 0.15
     if isRaining:
         params["valance"] += budge
         params["acusticness"] += budge
         params["loudness"] -= budge
         params["tempo"] -= budge
-        params["Instrumentalness"] += budge
+        params["instrumentalness"] += budge
         params["dancebility"] -= budge
+        genres.extend(["chill","piano","jazz","rainy-day"])
     else:
         params["valance"] -= budge
         params["acusticness"] -= budge
         params["loudness"] += budge
         params["tempo"] += budge
-        params["Instrumentalness"] -= budge
+        params["instrumentalness"] -= budge
         params["dancebility"] += budge
+        genres.extend(["work-out","funk","happy"])
+            
+    if (cloud > 40):
+        params["valance"] += budge
+        params["acusticness"] += budge
+        params["loudness"] -= budge
+        params["tempo"] -= budge
+        params["instrumentalness"] += budge
+        params["dancebility"] -= budge
+        genres.extend(["guitar","chill","sleep"])
+        
+    else:
+        params["valance"] -= budge
+        params["acusticness"] -= budge
+        params["loudness"] += budge
+        params["tempo"] += budge
+        params["instrumentalness"] -= budge
+        params["dancebility"] += budge
+        genres.extend(["work-out","happy"])
+        
+    if (wind > 10):
+        params["valance"] += budge
+        params["acusticness"] += budge
+        params["loudness"] -= budge
+        params["tempo"] += budge
+        params["instrumentalness"] += budge
+        params["dancebility"] -= budge
+        genres.extend(["guitar","chill","jazz"])
+        
+    else:
+        params["valance"] -= budge
+        params["acusticness"] -= budge
+        params["loudness"] += budge
+        params["tempo"] -= budge
+        params["instrumentalness"] -= budge
+        params["dancebility"] += budge
+        genres.extend(["work-out","happy","funk"])
+    
+    if (temp > 12):
+        params["valance"] -= budge
+        params["acusticness"] -= budge
+        params["loudness"] += budge
+        params["tempo"] += budge
+        params["instrumentalness"] -= budge
+        params["dancebility"] += budge
+        genres.extend(["work-out","happy","funk"])
+        
+    else:
+        params["valance"] += budge
+        params["acusticness"] += budge
+        params["loudness"] -= budge
+        params["tempo"] -= budge
+        params["instrumentalness"] += budge
+        params["dancebility"] -= budge
+        genres.extend(["sleep","chill","jazz","piano"])
+    
+    for key in params:
+        if params[key] > 1:
+            params[key] = 1
+        elif params[key] < 0:
+            params[key] = 0    
+    genre = []
+    for i in range(4):
+        genre.append(random.choice(genres))
     
     
-    return params
+    return [params, genre]
 
 
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:

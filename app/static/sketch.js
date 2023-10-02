@@ -45,8 +45,8 @@ function spotifyLoadPreview() {
 
 function preload() {
   navigator.geolocation.getCurrentPosition((position) => {
-    url_forcast = `http://localhost:3000/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-    url_weather = `http://localhost:3000/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+    url_forcast = `/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+    url_weather = `/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
 
     fetch(url_weather)
       .then((res) => res.json())
@@ -83,7 +83,7 @@ function draw() {
   if (weather && forcast) {
     background(0);
     site1();
-    if (spotify_state == "loged_in" && weather_loaded == true) {
+    if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
       spotifyLoadPreview()
       spotify_state = "preview_loaded"
     }
