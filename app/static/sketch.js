@@ -55,17 +55,17 @@ function preload() {
   loginSpotify()
 
   //image preloading
-  frame1 = loadImage('./static/Frame_1.png');
-  frame2 = loadImage('./static/Frame_2.png');
-  mand = loadImage('./static/Frame_3.png');
-  clear = loadImage('./static/01d.png');
-  scattered_clouds = loadImage('./static/03d.png');
-  rain = loadImage('./static/09d.png');
-  snow = loadImage('./static/13d.png');
-  regn = loadImage('./static/Regn_forgrund.png');
-  mist = loadImage('./static/50d.png');
-  mist2 = loadImage('./static/tåge_forgrund.png');
-  few_clouds = loadImage('./static/02d.png');
+  frame1 = loadImage('./static/pngs/Frame_1.png');
+  frame2 = loadImage('./static/pngs/Frame_2.png');
+  mand = loadImage('./static/pngs/Frame_3.png');
+  clear = loadImage('./static/pngs/01d.png');
+  scattered_clouds = loadImage('./static/pngs/03d.png');
+  rain = loadImage('./static/pngs/09d.png');
+  snow = loadImage('./static/pngs/13d.png');
+  regn = loadImage('./static/pngs/Regn_forgrund.png');
+  mist = loadImage('./static/pngs/50d.png');
+  mist2 = loadImage('./static/pngs/tåge_forgrund.png');
+  few_clouds = loadImage('./static/pngs/02d.png');
 
 }
 
@@ -160,19 +160,7 @@ function site1() {
   //gå tur
   fill(255)
 
-  if (weather.weather[0].main == "Clear") {
-    image(clear, pW(55), 74, pW(40), 500);
-  } else if (weather.weather[0].description == "few clouds") {
-    image(few_clouds, pW(55), 74, pW(40), 500);
-  } else if (weather.weather[0].description == "scattered clouds" || weather.weather[0].description == "broken clouds" || weather.weather[0].description == "overcast clouds") {
-    image(scattered_clouds, pW(55), 74, pW(40), 500);
-  } else if (weather.weather[0].main == "Drizzle" || weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
-    image(rain, pW(55), 74, pW(40), 500);
-  } else if (weather.weather[0].main == "Snow") {
-    image(snow, pW(55), 74, pW(40), 500);
-  } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
-    image(mist, pW(55), 74, pW(40), 500);
-  }
+  background_icon();
   image(mand, pW(55), 74, pW(40), 500);
   if (weather.weather[0].main == "Drizzle"
     || weather.weather[0].main == "Rain"
@@ -197,17 +185,23 @@ function site1() {
   stroke(0)
   textSize(28)
   textAlign(CENTER)
+  imageMode(CENTER);
   text("Vejret gennem ugen", pW(25), 700)
   text("I morgen", pW(10), 810)
   text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 810)
   text(getDay(1), pW(10), 910)
+  //weather_icons(810);
   text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 910)
   text(getDay(2), pW(10), 1010)
+  //weather_icons(910);
   text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
   text(getDay(3), pW(10), 1110)
+  //weather_icons(1010);
   text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1110)
   text(getDay(4), pW(10), 1210)
+  //weather_icons(1110);
   text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
+  //weather_icons(1210);
   pop()
 
   //spotify

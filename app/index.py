@@ -49,7 +49,7 @@ def get_now() -> dict:
     data = res.json()
     session["weather"] = data
     return jsonify(data)
-
+ 
 
 
 # add a route for the get playlist
