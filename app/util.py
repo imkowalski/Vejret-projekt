@@ -6,9 +6,35 @@ def isRainingCheck(icondId:str) -> bool:
     return False
 
 
+    
 
 def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
-    pass
+    params = {
+        "valance": 0.5,
+        "acusticness": 0.5,
+        "loudness": 0.5,
+        "tempo": 0.5,
+        "Instrumentalness": 0.5,
+        "dancebility": 0.5
+    }
+    budge = 0.1
+    if isRaining:
+        params["valance"] += budge
+        params["acusticness"] += budge
+        params["loudness"] -= budge
+        params["tempo"] -= budge
+        params["Instrumentalness"] += budge
+        params["dancebility"] -= budge
+    else:
+        params["valance"] -= budge
+        params["acusticness"] -= budge
+        params["loudness"] += budge
+        params["tempo"] += budge
+        params["Instrumentalness"] -= budge
+        params["dancebility"] += budge
+    
+    
+    return params
 
 
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:

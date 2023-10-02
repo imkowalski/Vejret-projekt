@@ -4,6 +4,8 @@ let weather;
 let forcast;
 let icon;
 let spotify_state = "sign in";
+let songs = [];
+let weather_loaded = false;
 let frame1;
 let frame2;
 let frame3;
@@ -22,7 +24,22 @@ let loginSpotify = () => {
   }
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
-  window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  let popup = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  const interval = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(interval);
+      spotifyLoadPreview();
+    }
+  }, 500);
+
+}
+
+function spotifyLoadPreview() {
+  fetch("/getSongs")
+    .then((res) => res.json())
+    .then((data) => {
+      songs = data["songs"]["tracks"]
+    })
 
 }
 
@@ -33,7 +50,10 @@ function preload() {
 
     fetch(url_weather)
       .then((res) => res.json())
-      .then((data) => weather = data)
+      .then((data) => {
+        weather = data
+        weather_loaded = true
+      })
       .catch((err) => console.log(err))
 
     fetch(url_forcast)
@@ -42,7 +62,7 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  
+
   //image preloading
   frame1 = loadImage('./static/Frame_1.png');
   frame2 = loadImage('./static/Frame_2.png');
@@ -60,11 +80,13 @@ function pW(prc) {
 }
 
 function draw() {
-
   if (weather && forcast) {
     background(0);
     site1();
-
+    if (spotify_state == "loged_in" && weather_loaded == true) {
+      spotifyLoadPreview()
+      spotify_state = "preview_loaded"
+    }
   } else {
     push()
     background(0, 100);
@@ -171,8 +193,7 @@ function site1() {
   pop()
 
   //spotify
-  rect(pW(55), 648, pW(40), 652, 20);
-
+  drawSpotify(pW(55), 648, pW(40), 652, songs);
 
   //mere info
   rect(pW(5), 1387, pW(40), 50, 20);
