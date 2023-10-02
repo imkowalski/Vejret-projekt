@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify, redirect, make_response, session
 from flask_cors import CORS
 import requests
