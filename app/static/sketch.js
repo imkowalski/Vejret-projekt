@@ -4,6 +4,7 @@ let weather;
 let forcast;
 let icon;
 let spotify_state = "sign in";
+let songs = [];
 let frame1;
 let frame2;
 let frame3;
@@ -22,8 +23,22 @@ let loginSpotify = () => {
   }
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
-  window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  let popup = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  const interval = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(interval);
+      spotifyLoadPreview();
+    }
+  }, 500);
 
+}
+
+function spotifyLoadPreview() {
+  fetch("/getSongs")
+    .then((res) => res.json())
+    .then((data) => {
+      songs = data["songs"]["tracks"]
+    })
 }
 
 function preload() {
@@ -60,7 +75,11 @@ function pW(prc) {
 }
 
 function draw() {
-
+  print(spotify_state)
+  if (spotify_state == "loged_in") {
+    spotifyLoadPreview()
+    spotify_state = "preview_loaded"
+  }
   if (weather && forcast) {
     background(0);
     site1();
@@ -172,7 +191,7 @@ function site1() {
 
   //spotify
   rect(pW(55), 648, pW(40), 652, 20);
-
+  drawSpotify(pW(55), 648, pW(40), 652, songs);
 
   //mere info
   rect(pW(5), 1387, pW(40), 50, 20);

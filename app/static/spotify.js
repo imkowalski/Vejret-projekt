@@ -1,5 +1,6 @@
 let loaded_images = []
 let button_add_playlist = false
+
 function drawSpotify(startX, startY, widthX, heightY, tracks) {
     x = (prc) => {
         return widthX * prc / 100;
@@ -26,7 +27,7 @@ function drawSpotify(startX, startY, widthX, heightY, tracks) {
             if (loaded_images[i] == undefined) {
                 break;
             }
-            image(loaded_images[i], startX + x(15), startY + y(20)+y(19)*i, x(14), x(14))
+            image(loaded_images[i], startX + x(10), startY + y(15)+y(19)*i, x(14), x(14))
             textAlign(LEFT,TOP)
             textSize(22)
             fill(255)
@@ -44,7 +45,6 @@ function drawSpotify(startX, startY, widthX, heightY, tracks) {
     textAlign(CENTER, CENTER)
     text("Add Playlist", startX + x(30), startY + y(90), x(40), y(8))
     if (mouseIsPressed && mouseX > startX + x(30) && mouseX < startX + x(70) && mouseY > startY + y(90) && mouseY < startY + y(98) && button_add_playlist == false) {
-        
         print("add playlist")
         fetch("/addPlaylist")
         .then(response => response.json())
