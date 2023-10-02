@@ -8,11 +8,7 @@ def isRainingCheck(icondId:str) -> bool:
 
 
 def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
-    dist=[]
-    for mood in moods:
-        dist.append((temp-mood[0])**2 + (wind-mood[1])**2 + (cloud-mood[2])**2 + (isRaining-mood[3])**2)
-    
-    return moods[dist.index(min(dist))]
+    pass
 
 
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:
@@ -34,7 +30,6 @@ def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:fl
     baseURI += "&target_acousticness="+str(acusticness)
     # Add instrumentalness
     baseURI += "&target_instrumentalness="+str(instrumentalness)
-    
     return baseURI
 
 
@@ -46,12 +41,6 @@ def getSongRecommendation(bestMoood:str,token: str)-> dict:
     return req.json()
 
 
-
-def getListSongs(songs:dict) -> list:
-    listed_URI = []
-    for song in songs["tracks"]:
-        listed_URI.append(song["uri"])
-    return listed_URI
 
 
 
