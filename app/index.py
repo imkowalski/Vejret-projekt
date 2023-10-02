@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify, redirect, make_response, session
 from flask_cors import CORS
 import requests
@@ -8,12 +7,12 @@ import datetime
 
 API_KEY = "8532bf33a86747305821dfbd9c8184fc"
 # get the link weather data from the API at returns the 5 day weather 
- 
+
 
 def get_link_5day(lat: int, lon: int) -> str:
     return f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid="+API_KEY
 
-# get the link weather data from the API at returns the current weather
+# get the link weather data from the API at returns the current weather 
 
 
 def get_link_now(lat: int, lon: int) -> str:
@@ -21,10 +20,10 @@ def get_link_now(lat: int, lon: int) -> str:
 
 
 # create the flask app
-app = Flask(__name__,static_folder="./static",template_folder="templates")
+app = Flask(__name__,static_folder="static",template_folder="templates")
 app.secret_key = 'SECRET_KEY'
 CORS(app)
-# Head route and return the only page 
+# Head route and return the only page
  
 
 @app.route("/")
@@ -48,36 +47,27 @@ def get() -> dict:
 def get_now() -> dict:
     res = requests.get(get_link_now(request.args["lat"], request.args["lon"]))
     data = res.json()
+    session["weather"] = data
     return jsonify(data)
 
 
-@app.route("/getPreview")
-def preview():
-    preview = []
-    headers = {
-        "authorization": "Bearer " + request.cookies.get("token")
-    }
-    URIS = session["songURIs"]
-    for i in range(4):
-        preview.append(requests.get("https://api.spotify.com/v1/tracks/" + URIS[i], headers=headers).json())
-    return jsonify(preview)
 
-
-# add a route for the get playlisT
+# add a route for the get playlist
 @app.route("/getSongs")
 def get_playlist() -> dict:
     token = request.cookies.get("token")
-    songs = util.getSongRecommendation(["1"], token)
-    songURIs = util.getListSongs(songs)
-    session["songURIs"] = songURIs
-    return jsonify({"status": 201,"message": " A Ok", "songURIs": songURIs})
+    headers = {
+        "Authorization": "Bearer " + token
+    }
+    songs = requests.get(util.getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers).json()
+    session["songURIs"] = [song["uri"] for song in songs["tracks"]]
+    return jsonify({"status": 201,"message": " A Ok", "songs":songs})
 
 # add a route for the add playlist
-@app.route("/addPlaylist", methods=["POST", "GET"])
+@app.route("/addPlaylist", methods=["GET"])
 def add_playlist() -> dict:
     if request.cookies.get("token") == None:
         return {"status":401,"error":"not logged in"}
-    
     
     mereq = requests.get("https://api.spotify.com/v1/me", headers={"Authorization": "Bearer " + request.cookies.get("token")})
     me = mereq.json()
@@ -85,7 +75,7 @@ def add_playlist() -> dict:
         "Authorization": "Bearer " + request.cookies.get("token"),
     }
     data = {
-        "name": f'{request.json["where"]} - {str(datetime.date.today())}',
+        "name": f'{str(datetime.date.today())}',
         "description": "WinterBliss Generated Playlist based on the weather",
         "public": False
     }
@@ -93,7 +83,6 @@ def add_playlist() -> dict:
     playlist = req.json()
     tracksURI = playlist["tracks"]["href"]
     reqs = requests.post(tracksURI, headers=headers, json={"uris": session["songURIs"]})
-    
     
     return jsonify(playlist)
 
