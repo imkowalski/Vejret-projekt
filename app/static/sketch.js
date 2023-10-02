@@ -6,7 +6,18 @@ let icon;
 let spotify_state = "sign in";
 let frame1;
 let frame2;
-let frame3;
+let mand;
+
+// background Weather icons
+let clear;
+let few_clouds;
+let scattered_clouds;
+let rain;
+let snow;
+let regn;
+let mist;
+let mist2;
+
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -42,11 +53,20 @@ function preload() {
       .catch((err) => console.log(err))
   })
   loginSpotify()
-  
+
   //image preloading
   frame1 = loadImage('./static/Frame_1.png');
   frame2 = loadImage('./static/Frame_2.png');
-  frame3 = loadImage('./static/Frame_3.png');
+  mand = loadImage('./static/Frame_3.png');
+  clear = loadImage('./static/01d.png');
+  scattered_clouds = loadImage('./static/03d.png');
+  rain = loadImage('./static/09d.png');
+  snow = loadImage('./static/13d.png');
+  regn = loadImage('./static/Regn_forgrund.png');
+  mist = loadImage('./static/50d.png');
+  mist2 = loadImage('./static/tåge_forgrund.png');
+  few_clouds = loadImage('./static/02d.png');
+
 }
 
 function setup() {
@@ -64,7 +84,7 @@ function draw() {
   if (weather && forcast) {
     background('#51809b');
     site1();
-
+    print(weather)
   } else {
     push()
     background(0, 100);
@@ -139,15 +159,35 @@ function site1() {
 
   //gå tur
   fill(255)
-  image(frame1, pW(55), 74, pW(40), 500);
-  image(frame3, pW(55), 74, pW(40), 500);
+
+  if (weather.weather[0].main == "Clear") {
+    image(clear, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].description == "few clouds") {
+    image(few_clouds, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].description == "scattered clouds" || weather.weather[0].description == "broken clouds" || weather.weather[0].description == "overcast clouds") {
+    image(scattered_clouds, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].main == "Drizzle" || weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
+    image(rain, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].main == "Snow") {
+    image(snow, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
+    image(mist, pW(55), 74, pW(40), 500);
+  }
+  image(mand, pW(55), 74, pW(40), 500);
+  if (weather.weather[0].main == "Drizzle"
+    || weather.weather[0].main == "Rain"
+    || weather.weather[0].main == "Thunderstorm") {
+    image(regn, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
+    image(mist2, pW(55), 74, pW(40), 500);
+  }
   push()
   fill(0)
   stroke(0)
   textAlign(CENTER)
   textSize(28)
-  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 100)
+  text("Temperaturen nu: " + Math.round(weather.main.temp) + "℃", pW(75), 550)
+  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 110)
   pop()
 
   //uge vejr
