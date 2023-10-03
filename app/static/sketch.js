@@ -8,7 +8,18 @@ let songs = [];
 let weather_loaded = false;
 let frame1;
 let frame2;
-let frame3;
+let mand;
+
+// background Weather icons
+let clear;
+let few_clouds;
+let scattered_clouds;
+let rain;
+let snow;
+let regn;
+let mist;
+let mist2;
+
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -64,9 +75,18 @@ function preload() {
   loginSpotify()
 
   //image preloading
-  frame1 = loadImage('./static/Frame_1.png');
-  frame2 = loadImage('./static/Frame_2.png');
-  frame3 = loadImage('./static/Frame_3.png');
+  frame1 = loadImage('./static/pngs/Frame_1.png');
+  frame2 = loadImage('./static/pngs/Frame_2.png');
+  mand = loadImage('./static/pngs/Frame_3.png');
+  clear = loadImage('./static/pngs/01d.png');
+  scattered_clouds = loadImage('./static/pngs/03d.png');
+  rain = loadImage('./static/pngs/09d.png');
+  snow = loadImage('./static/pngs/13d.png');
+  regn = loadImage('./static/pngs/Regn_forgrund.png');
+  mist = loadImage('./static/pngs/50d.png');
+  mist2 = loadImage('./static/pngs/tåge_forgrund.png');
+  few_clouds = loadImage('./static/pngs/02d.png');
+
 }
 
 function setup() {
@@ -81,12 +101,14 @@ function pW(prc) {
 
 function draw() {
   if (weather && forcast) {
-    background(0);
+    background('#51809b');
     site1();
+
     if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
       spotifyLoadPreview()
       spotify_state = "preview_loaded"
     }
+
   } else {
     push()
     background(0, 100);
@@ -139,7 +161,7 @@ function getDay(i) {
 
 function site1() {
   //sol op/ned
-  background(0);
+  background('#51809b');
   fill(255);
   noStroke();
   image(frame1, pW(5), 74, pW(40), 500);
@@ -161,16 +183,24 @@ function site1() {
 
   //gå tur
   fill(255)
-  image(frame1, pW(55), 74, pW(40), 500);
-  image(frame3, pW(55), 74, pW(40), 500);
+
+  background_icon();
+  image(mand, pW(55), 74, pW(40), 500);
+  if (weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
+    image(regn, pW(55), 74, pW(40), 500);
+  } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
+    image(mist2, pW(55), 74, pW(40), 500);
+  }
   push()
   fill(0)
   stroke(0)
   textAlign(CENTER)
   textSize(28)
+
   text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
   let bestTime = new Date(timeForMaxTemp().dt)
   text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 100)
+
   pop()
 
   //uge vejr
@@ -180,17 +210,23 @@ function site1() {
   stroke(0)
   textSize(28)
   textAlign(CENTER)
+  imageMode(CENTER);
   text("Vejret gennem ugen", pW(25), 700)
   text("I morgen", pW(10), 810)
   text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 810)
   text(getDay(1), pW(10), 910)
+  //weather_icons(810);
   text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 910)
   text(getDay(2), pW(10), 1010)
+  //weather_icons(910);
   text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
   text(getDay(3), pW(10), 1110)
-  text(tempMin(4) + "℃ -" + tempMin(4) + "℃", pW(37), 1110)
+  //weather_icons(1010);
+  text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1110)
   text(getDay(4), pW(10), 1210)
+  //weather_icons(1110);
   text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
+  //weather_icons(1210);
   pop()
 
   //spotify
