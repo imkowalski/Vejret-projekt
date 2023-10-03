@@ -4,6 +4,8 @@ let weather;
 let forcast;
 let icon;
 let spotify_state = "sign in";
+let songs = [];
+let weather_loaded = false;
 let frame1;
 let frame2;
 let mand;
@@ -29,22 +31,40 @@ let loginSpotify = () => {
   let SPOTIPY_CLIENT_ID = "da3f7dfb4bfa445698546301ae1e8346"
   let SPOTIPY_REDIRECT_URI = "http://127.0.0.1:3000/loginpopup"
   if (window.location.hostname != "127.0.0.1" && window.location.hostname != "localhost") {
-    SPOTIPY_REDIRECT_URI = "https://vejret-projekt.vercel.app/loginpopup"
+    SPOTIPY_REDIRECT_URI = "http://imkowalski.pythonanywhere.com/loginpopup"
   }
   let spotifyScope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public ugc-image-upload"
   let spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID + "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token&state=123";
-  window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  let popup = window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=700,width=500');
+  const interval = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(interval);
+      spotifyLoadPreview();
+    }
+  }, 500);
+
+}
+
+function spotifyLoadPreview() {
+  fetch("/getSongs")
+    .then((res) => res.json())
+    .then((data) => {
+      songs = data["songs"]["tracks"]
+    })
 
 }
 
 function preload() {
   navigator.geolocation.getCurrentPosition((position) => {
-    url_forcast = `http://localhost:3000/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-    url_weather = `http://localhost:3000/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+    url_forcast = `/weather/forcast?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+    url_weather = `/weather/now?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
 
     fetch(url_weather)
       .then((res) => res.json())
-      .then((data) => weather = data)
+      .then((data) => {
+        weather = data
+        weather_loaded = true
+      })
       .catch((err) => console.log(err))
 
     fetch(url_forcast)
@@ -80,11 +100,15 @@ function pW(prc) {
 }
 
 function draw() {
-
   if (weather && forcast) {
     background('#51809b');
     site1();
-    print(weather)
+
+    if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
+      spotifyLoadPreview()
+      spotify_state = "preview_loaded"
+    }
+
   } else {
     push()
     background(0, 100);
@@ -172,8 +196,11 @@ function site1() {
   stroke(0)
   textAlign(CENTER)
   textSize(28)
-  text("Temperaturen nu: " + Math.round(weather.main.temp) + "℃", pW(75), 550)
-  text("Bedste tid til at gå en tur: " + "(time)", pW(75), 110)
+
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  let bestTime = new Date(timeForMaxTemp().dt)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 100)
+
   pop()
 
   //uge vejr
@@ -203,8 +230,7 @@ function site1() {
   pop()
 
   //spotify
-  rect(pW(55), 648, pW(40), 652, 20);
-
+  drawSpotify(pW(55), 648, pW(40), 652, songs);
 
   //mere info
   rect(pW(5), 1387, pW(40), 50, 20);
