@@ -162,9 +162,7 @@ function site1() {
 
   background_icon();
   image(mand, pW(55), 74, pW(40), 500);
-  if (weather.weather[0].main == "Drizzle"
-    || weather.weather[0].main == "Rain"
-    || weather.weather[0].main == "Thunderstorm") {
+  if (weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
     image(regn, pW(55), 74, pW(40), 500);
   } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
     image(mist2, pW(55), 74, pW(40), 500);
