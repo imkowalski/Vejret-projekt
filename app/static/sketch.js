@@ -176,8 +176,13 @@ function site1() {
   fill(0)
   stroke(0)
   textAlign(CENTER)
-  textSize(20)
-  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
+  textSize(30)
+  fill(0,2,25,100)
+  noStroke()
+  rect(pW(14), 80, pW(22), 60, 20);
+  fill(255)
+  strokeWeight(0)
+  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 120)
   pop()
 
 
@@ -195,11 +200,18 @@ function site1() {
   fill(0)
   stroke(0)
   textAlign(CENTER)
-  textSize(28)
-
-  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  textSize(30)
+  stroke(255)
+  fill(255)
+  strokeWeight(0)
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 540)
   let bestTime = new Date(timeForMaxTemp().dt)
-  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 100)
+  fill(0,2,25,100)
+  noStroke()
+  rect(pW(56), 80, pW(38), 60, 20);
+  fill(255)
+  strokeWeight(1)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 120)
 
   pop()
 
@@ -259,7 +271,7 @@ function mousePressed() {
   if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
     window.open("https://www.sundhed.dk/borger/sygdomme-a-aa/psykiske-sygdomme/tilstande-og-sygdomme/sad/", "_blank")
   } if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
-    window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank")
+    window.open("https://psykiatrifonden.dk/", "_blank")
   }
 }
 function windowResized() {
