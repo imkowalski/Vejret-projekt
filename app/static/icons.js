@@ -1,3 +1,4 @@
+//a function that returns the background picture for the weather
 function background_icon(w) {
   if (weather.weather[0].main == "Clear") {
     return image(clear, pW(w), 74, pW(40), 500);
@@ -13,6 +14,8 @@ function background_icon(w) {
     return image(mist, pW(w), 74, pW(40), 500);
   }
 }
+
+//a function that returns the icon for the weakly weather
 function weather_icons(h, dag) {
   let arricons = [];
   let dth = new Date(0);

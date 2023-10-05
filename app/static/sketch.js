@@ -2,15 +2,14 @@ let url_forcast;
 let url_weather;
 let weather;
 let forcast;
-let icon;
 let spotify_state = "sign in";
 let songs = [];
 let weather_loaded = false;
+
+// background Weather icons
 let frame1;
 let frame2;
 let mand;
-
-// background Weather icons
 let clear;
 let few_clouds;
 let scattered_clouds;
@@ -26,12 +25,6 @@ let few_clouds_icon;
 let scattered_clouds_icon;
 let rain_icon;
 let snow_icon;
-
-
-function getIcon(icon) {
-  icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
-  return icon_url;
-}
 
 
 let loginSpotify = () => {
@@ -100,12 +93,14 @@ function preload() {
   snow_icon = loadImage('./static/pngs/13n.png');
 }
 
+
 function setup() {
   createCanvas(window.innerWidth, 1600);
   angleMode(DEGREES);
   noStroke();
 }
 
+//a function to convert a percentage of the width to pixels
 function pW(prc) {
   return width * prc / 100;
 }
@@ -120,6 +115,7 @@ function draw() {
     }
 
   } else {
+    //loading screen
     push()
     background(0, 100);
     stroke(50)
@@ -137,16 +133,26 @@ function draw() {
     textAlign(CENTER)
     stroke(255)
     fill(255)
-    text("Hacking The Mainframe...", 0, 75)
+    text("Loading...", 0, 75)
     pop()
   }
 }
 
+//a function to find the time now between sunrise and sunset in degrees between -45 and 45
 function sundeg() {
   date = Date.now()
   return map(date, weather.sys.sunrise * 1000, weather.sys.sunset * 1000, -45, 45)
 }
 
+//make the text design easier
+function textDesign(){
+  fill(0)
+  stroke(0)
+  textSize(28)
+  textAlign(CENTER)
+}
+
+//a function to convert the day of the week to a string
 function getDay(i) {
   day = new Date().getDay()
 
@@ -169,58 +175,57 @@ function getDay(i) {
   }
 }
 
+//the site you see when you open the webapp
 function site1() {
-  //sol op/ned
+  //sun up and down frame
   background('#51809b');
   fill(255);
   noStroke();
   image(frame1, pW(5), 74, pW(40), 500);
-  //background_icon(5);
+  
+  //the sun
   push()
   fill('yellow')
   translate(pW(25), 574)
   rotate(sundeg())
   circle(pW(0), -300, pW(5))
   pop()
+
   image(frame2, pW(5.3), 65, pW(39.4), 500);
+  
   push()
-  fill(255)
-  stroke(255)
-  textAlign(CENTER)
-  textSize(20)
+  textDesign()
   text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
   pop()
 
 
-  //gå tur
+  //walk frame
   fill(255)
 
   background_icon(55);
   image(mand, pW(55), 74, pW(40), 500);
+
+  //ekstra weather icon overlay for rain and mist
   if (weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
     image(regn, pW(55), 74, pW(40), 500);
   } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
     image(mist2, pW(55), 74, pW(40), 500);
   }
+  
   push()
-  fill(0)
-  stroke(0)
-  textAlign(CENTER)
-  textSize(28)
-
-  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  textDesign()
+  
+  //finds the best time to go for a walk and display it
   let bestTime = new Date(timeForMaxTemp().dt)
   text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours(), pW(75), 100)
-
+  
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
   pop()
 
-  //uge vejr
+  //weakly weather frame
   rect(pW(5), 648, pW(40), 652, 20);
   push()
-  fill(0)
-  stroke(0)
-  textSize(28)
-  textAlign(CENTER)
+  textDesign()
   imageMode(CENTER);
   text("Vejret gennem ugen", pW(25), 700)
 
@@ -229,6 +234,7 @@ function site1() {
   line(pW(10), 710, pW(40), 710)
   pop()
 
+  //the weather for tomorrow
   text("I morgen", pW(10), 780)
   weather_icons(770, 1);
   text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 780)
@@ -237,6 +243,7 @@ function site1() {
   line(pW(10), 835, pW(40), 835)
   pop()
 
+  //the weather for 2 days from now
   text(getDay(1), pW(10), 895)
   weather_icons(885, 2);
   text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 895)
@@ -245,6 +252,7 @@ function site1() {
   line(pW(10), 950, pW(40), 950)
   pop()
 
+  //the weather for 3 days from now
   text(getDay(2), pW(10), 1010)
   weather_icons(1000, 3);
   text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
@@ -253,6 +261,7 @@ function site1() {
   line(pW(10), 1065, pW(40), 1065)
   pop()
 
+  //the weather for 4 days from now
   text(getDay(3), pW(10), 1125)
   weather_icons(1115, 4);
   text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1125)
@@ -261,30 +270,27 @@ function site1() {
   line(pW(10), 1180, pW(40), 1180)
   pop()
 
+  //the weather for 5 days from now
   text(getDay(4), pW(10), 1240)
   weather_icons(1230, 3);
   text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1240)
   pop()
 
-  //spotify
+  //spotify frame
   drawSpotify(pW(55), 648, pW(40), 652, songs);
 
-  //mere info
+  //more info frame
   rect(pW(5), 1387, pW(40), 50, 20);
   push()
-  fill(0)
-  stroke(0)
-  textSize(28)
+  textDesign()
   textAlign(CENTER, CENTER)
   text("Mere info om SAD", pW(25), 1415)
   pop()
 
-  //kontakt prof hjælp
+  //contact frame
   rect(pW(55), 1387, pW(40), 50, 20);
   push()
-  fill(0)
-  stroke(0)
-  textSize(28)
+  textDesign()
   textAlign(CENTER, CENTER)
   text("Kontakt professionel hjælp", pW(75), 1415)
   pop()
@@ -292,13 +298,16 @@ function site1() {
 
 }
 
+//check if the mouse is over one of the buttons in the bottom of the screen and open the link
 function mousePressed() {
   if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
-    window.open("https://www.sundhed.dk/borger/sygdomme-a-aa/psykiske-sygdomme/tilstande-og-sygdomme/sad/", "_blank")
+    window.open("https://www.sundhed.dk/borger/patienthaandbogen/psyke/sygdomme/depression/vinterdepression/", "_blank")
   } if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
     window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank")
   }
 }
+
+//make the window size responsive
 function windowResized() {
   resizeCanvas(window.innerWidth, 1600);
 }
