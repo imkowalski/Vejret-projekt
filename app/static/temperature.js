@@ -1,4 +1,4 @@
-
+// finds the max temp for the day and retuns it
 function tempMax(dag) {
     let arrMax = [];
     let dt = 0;
@@ -20,6 +20,7 @@ function tempMax(dag) {
     return Math.round(maxtemp);
 }
 
+// finds the min temp for the day and retuns it
 function tempMin(dag) {
     let arrMin = [];
     let dt = 0;
@@ -40,6 +41,7 @@ function tempMin(dag) {
     return Math.round(mintemp);
 }
 
+// finds the max temp for the day and retuns the time
 function timeForMaxTemp() {
     let dt = new Date(0);
     dt.setUTCSeconds(forcast[0].dt);
