@@ -194,8 +194,15 @@ function site1() {
   image(frame2, pW(5.3), 65, pW(39.4), 500);
   
   push()
+
   textDesign()
-  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
+  textSize(30)
+  fill(0,2,25,100)
+  noStroke()
+  rect(pW(14), 80, pW(22), 60, 20);
+  fill(255)
+  strokeWeight(0)
+  text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 120)
   pop()
 
 
@@ -213,13 +220,23 @@ function site1() {
   }
   
   push()
-  textDesign()
+    textDesign()
+  textSize(30)
+  stroke(255)
+  fill(255)
+  strokeWeight(0)
+  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 540)
   
   //finds the best time to go for a walk and display it
   let bestTime = new Date(timeForMaxTemp().dt)
-  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours(), pW(75), 100)
-  
-  text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
+  fill(0,2,25,100)
+  noStroke()
+  rect(pW(56), 80, pW(38), 60, 20);
+  fill(255)
+  strokeWeight(1)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 120)
+
+
   pop()
 
   //weakly weather frame
@@ -303,7 +320,7 @@ function mousePressed() {
   if (mouseX > pW(5) && mouseX < pW(5) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
     window.open("https://www.sundhed.dk/borger/patienthaandbogen/psyke/sygdomme/depression/vinterdepression/", "_blank")
   } if (mouseX > pW(55) && mouseX < pW(55) + pW(40) && mouseY > 1387 && mouseY < 1387 + 50) {
-    window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank")
+    window.open("https://psykiatrifonden.dk/", "_blank")
   }
 }
 

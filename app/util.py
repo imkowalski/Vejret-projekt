@@ -1,7 +1,7 @@
 import requests
 import random
 
-
+# checks if it is raining
 def isRainingCheck(icondId:str) -> bool:
     if icondId[:-1] == "09" or icondId[:-1] == "10" or icondId[:-1] == "11":
         return True
@@ -9,7 +9,7 @@ def isRainingCheck(icondId:str) -> bool:
 
 
     
-
+# finds the parameters for the spotify recommendation list
 def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
     params = {
         "valance": 0.5,
@@ -96,7 +96,9 @@ def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
         if params[key] > 1:
             params[key] = 1
         elif params[key] < 0:
-            params[key] = 0    
+            params[key] = 0  
+            
+    # generate 4 random genres  
     genre = []
     for i in range(4):
         genre.append(random.choice(genres))
@@ -105,6 +107,7 @@ def findParameters(temp:int , wind:int, cloud:int, isRaining:bool) -> str:
     return [params, genre]
 
 
+# generates the URI for the spotify recommendation list
 def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:float, valence:float, acusticness:float, instrumentalness:float) -> str:
     baseURI = "https://api.spotify.com/v1/recommendations?limit=50&market=DK&"
     # Add genre
@@ -127,6 +130,7 @@ def getRecommendationURI(genre:list, loudness:float, tempo:float, dancebility:fl
     return baseURI
 
 
+# gets the spotify recommendation list
 def getSongRecommendation(bestMoood:str,token: str)-> dict:
     headers = {
         "Authorization": "Bearer " + token
@@ -134,13 +138,4 @@ def getSongRecommendation(bestMoood:str,token: str)-> dict:
     req = requests.get(getRecommendationURI(["rock","pop","jazz"], 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), headers=headers)
     return req.json()
 
-
-
-
-
-'''
-GET https://api.spotify.com/v1/recommendations?limit=50&seed_genres=rock,pop,jazz&target_loudness=0.5&target_tempo=0.5&target_danceability=0.5&target_valence=0.5&target_acousticness=0.5&target_instrumentalness=0.5 HTTP/1.1
-Host: api.spotify.com
-Authorization: Bearer BQCm6UmwcZ83AnURa2olapNHlG0WwfUwH36pKMUWJ-rrgvcAd4TOq_s8B619NwxvgDUiu6x-7v_APge7YN6ey8OD9d7MFfDF4uhmAKHAYnvGk2nJgn0_BxtJdegWrbQmws-EbdoKFTC3eijbYJU5EkeUd-fLO9L01idK38dZyo2pJM5e8oUxxYZrXwIi8csl7WE4O6Ko3xYMzBm41UI6LjurT5uOP9kC5ZGvz7zs-lq7FeTpzVJ_t5mfRbiI5xsLMvlj
-'''    
 
