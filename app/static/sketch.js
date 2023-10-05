@@ -20,6 +20,13 @@ let regn;
 let mist;
 let mist2;
 
+//weather icons
+let clear_icon;
+let few_clouds_icon;
+let scattered_clouds_icon;
+let rain_icon;
+let snow_icon;
+
 
 function getIcon(icon) {
   icon_url = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
@@ -86,7 +93,11 @@ function preload() {
   mist = loadImage('./static/pngs/50d.png');
   mist2 = loadImage('./static/pngs/tåge_forgrund.png');
   few_clouds = loadImage('./static/pngs/02d.png');
-
+  clear_icon = loadImage('./static/pngs/01n.png');
+  few_clouds_icon = loadImage('./static/pngs/02n.png');
+  scattered_clouds_icon = loadImage('./static/pngs/03n.png');
+  rain_icon = loadImage('./static/pngs/09n.png');
+  snow_icon = loadImage('./static/pngs/13n.png');
 }
 
 function setup() {
@@ -103,7 +114,6 @@ function draw() {
   if (weather && forcast) {
     background('#51809b');
     site1();
-
     if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
       spotifyLoadPreview()
       spotify_state = "preview_loaded"
@@ -165,6 +175,7 @@ function site1() {
   fill(255);
   noStroke();
   image(frame1, pW(5), 74, pW(40), 500);
+  //background_icon(5);
   push()
   fill('yellow')
   translate(pW(25), 574)
@@ -173,8 +184,8 @@ function site1() {
   pop()
   image(frame2, pW(5.3), 65, pW(39.4), 500);
   push()
-  fill(0)
-  stroke(0)
+  fill(255)
+  stroke(255)
   textAlign(CENTER)
   textSize(20)
   text(tempMin(0) + "℃ - " + tempMax(0) + "℃", pW(25), 148)
@@ -184,7 +195,7 @@ function site1() {
   //gå tur
   fill(255)
 
-  background_icon();
+  background_icon(55);
   image(mand, pW(55), 74, pW(40), 500);
   if (weather.weather[0].main == "Rain" || weather.weather[0].main == "Thunderstorm") {
     image(regn, pW(55), 74, pW(40), 500);
@@ -199,7 +210,7 @@ function site1() {
 
   text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 560)
   let bestTime = new Date(timeForMaxTemp().dt)
-  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 100)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours(), pW(75), 100)
 
   pop()
 
@@ -212,21 +223,47 @@ function site1() {
   textAlign(CENTER)
   imageMode(CENTER);
   text("Vejret gennem ugen", pW(25), 700)
-  text("I morgen", pW(10), 810)
-  text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 810)
-  text(getDay(1), pW(10), 910)
-  //weather_icons(810);
-  text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 910)
+
+  push()
+  strokeWeight(3)
+  line(pW(10), 710, pW(40), 710)
+  pop()
+
+  text("I morgen", pW(10), 780)
+  weather_icons(770, 1);
+  text(tempMin(1) + "℃ -" + tempMax(1) + "℃", pW(37), 780)
+  push()
+  strokeWeight(2)
+  line(pW(10), 835, pW(40), 835)
+  pop()
+
+  text(getDay(1), pW(10), 895)
+  weather_icons(885, 2);
+  text(tempMin(2) + "℃ -" + tempMax(2) + "℃", pW(37), 895)
+  push()
+  strokeWeight(2)
+  line(pW(10), 950, pW(40), 950)
+  pop()
+
   text(getDay(2), pW(10), 1010)
-  //weather_icons(910);
+  weather_icons(1000, 3);
   text(tempMin(3) + "℃ -" + tempMax(3) + "℃", pW(37), 1010)
-  text(getDay(3), pW(10), 1110)
-  //weather_icons(1010);
-  text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1110)
-  text(getDay(4), pW(10), 1210)
-  //weather_icons(1110);
-  text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1210)
-  //weather_icons(1210);
+  push()
+  strokeWeight(2)
+  line(pW(10), 1065, pW(40), 1065)
+  pop()
+
+  text(getDay(3), pW(10), 1125)
+  weather_icons(1115, 4);
+  text(tempMin(4) + "℃ -" + tempMax(4) + "℃", pW(37), 1125)
+  push()
+  strokeWeight(2)
+  line(pW(10), 1180, pW(40), 1180)
+  pop()
+
+  text(getDay(4), pW(10), 1240)
+  weather_icons(1230, 3);
+  text(tempMin(5) + "℃ -" + tempMax(5) + "℃", pW(37), 1240)
   pop()
 
   //spotify
