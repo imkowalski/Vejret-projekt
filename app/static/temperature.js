@@ -10,11 +10,11 @@ function tempMax(dag) {
         let temp = new Date(0);
         temp.setUTCSeconds(forcast[i].dt);
         let date1 = temp.getDate();
-        
+
         if (date == date1) {
             arrMax.push(forcast[i].main.temp);
             maxtemp = Math.max(...arrMax);
-           
+
         }
     }
     return Math.round(maxtemp);

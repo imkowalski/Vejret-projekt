@@ -109,6 +109,7 @@ function draw() {
   if (weather && forcast) {
     background('#51809b');
     site1();
+    print(weather)
     if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
       spotifyLoadPreview()
       spotify_state = "preview_loaded"
@@ -145,7 +146,7 @@ function sundeg() {
 }
 
 //make the text design easier
-function textDesign(){
+function textDesign() {
   fill(0)
   stroke(0)
   textSize(28)
@@ -182,7 +183,7 @@ function site1() {
   fill(255);
   noStroke();
   image(frame1, pW(5), 74, pW(40), 500);
-  
+
   //the sun
   push()
   fill('yellow')
@@ -192,12 +193,12 @@ function site1() {
   pop()
 
   image(frame2, pW(5.3), 65, pW(39.4), 500);
-  
+
   push()
 
   textDesign()
   textSize(30)
-  fill(0,2,25,100)
+  fill(0, 2, 25, 100)
   noStroke()
   rect(pW(14), 80, pW(22), 60, 20);
   fill(255)
@@ -218,23 +219,23 @@ function site1() {
   } else if (weather.weather[0].main == "50d" || weather.weather[0].main == "50n") {
     image(mist2, pW(55), 74, pW(40), 500);
   }
-  
+
   push()
-    textDesign()
+  textDesign()
   textSize(30)
   stroke(255)
   fill(255)
   strokeWeight(0)
   text("Nu: " + Math.round(weather.main.temp) + "℃", pW(75), 540)
-  
+
   //finds the best time to go for a walk and display it
   let bestTime = new Date(timeForMaxTemp().dt)
-  fill(0,2,25,100)
+  fill(0, 2, 25, 100)
   noStroke()
   rect(pW(56), 80, pW(38), 60, 20);
   fill(255)
   strokeWeight(1)
-  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours() , pW(75), 120)
+  text("Bedste tid til at gå en tur er Kl. " + bestTime.getHours(), pW(75), 120)
 
 
   pop()

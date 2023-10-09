@@ -4,9 +4,9 @@ let button_add_playlist = false
 
 function drawSpotify(startX, startY, widthX, heightY, tracks) {
     // helper function for positioning
-    x = (prc) => {return widthX * prc / 100};
-    y = (prc) => {return heightY * prc / 100};
-    
+    x = (prc) => { return widthX * prc / 100 };
+    y = (prc) => { return heightY * prc / 100 };
+
     // drawing background box
     push()
     fill(0)
