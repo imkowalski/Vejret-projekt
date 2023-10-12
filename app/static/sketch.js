@@ -109,7 +109,6 @@ function draw() {
   if (weather && forcast) {
     background('#51809b');
     site1();
-    print(weather)
     if (spotify_state == "loged_in" && weather["weather"][0]["main"] != undefined) {
       spotifyLoadPreview()
       spotify_state = "preview_loaded"
