@@ -181,7 +181,8 @@ function site1() {
   background('#51809b');
   fill(255);
   noStroke();
-  image(frame1, pW(5), 74, pW(40), 500);
+  //image(frame1, pW(5), 74, pW(40), 500);
+  background_icon(5)
 
   //the sun
   push()
